@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wangzongxu.github.io/"/>
-  <updated>2018-02-13T07:49:35.380Z</updated>
+  <updated>2018-02-13T08:19:14.714Z</updated>
   <id>https://wangzongxu.github.io/</id>
   
   <author>
@@ -16,11 +16,62 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>一个关于Promise执行顺序的小例子</title>
+    <link href="https://wangzongxu.github.io/2018/02/13/promise-demo1/"/>
+    <id>https://wangzongxu.github.io/2018/02/13/promise-demo1/</id>
+    <published>2018-02-13T08:08:01.355Z</published>
+    <updated>2018-02-13T08:19:14.714Z</updated>
+    
+    <content type="html"><![CDATA[<p>看下边这段代码并说出结果的输出顺序：</p>
+<a id="more"></a>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">  resolve(<span class="number">1</span>)</span><br><span class="line">  <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">2</span>))</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">4</span>)</span><br><span class="line">&#125;).then(<span class="function"><span class="params">t</span> =&gt;</span> <span class="built_in">console</span>.log(t))</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>执行结果在下边，建议先猜测一下<blockquote>
+<p>该代码来自阮一峰的微博</p>
+</blockquote>
+</li>
+</ul>
+<p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+<ul>
+<li><p>执行结果：4，3，2，1</p>
+</li>
+<li><p>在new Promise的时候，内部代码会立即同步执行，所以先输出4；</p>
+</li>
+<li><p>此时内部的同步代码已经执行完成，开始执行外部的console.log(3)；</p>
+</li>
+<li><p>大家纠结的问题应该在1和2谁先输出，此时我们回过头来看resolve(1)和console.log(2)</p>
+</li>
+<li><p>需要注意的是由于resolve(1)是同步执行的，此时外层Promise并没有执行then方法，也就是说console.log<br>(t)此时并没有被推入任务队列；</p>
+</li>
+<li><p>resolve(1)执行完以后，执行Promise.resolve(() =&gt; console.log(2))，这句代码的then方法在任务队列里放了一个console.log(2)，再次注意是这里的then率先在任务队列中放置了任务；</p>
+</li>
+<li><p>接下来才执行到外层Promise的then，这个时候把console.log(t)放入了任务队列；</p>
+</li>
+<li><p>所以我们先看到输出了2，然后输出的1</p>
+</li>
+</ul>
+<p>（完）</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;看下边这段代码并说出结果的输出顺序：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="JS" scheme="https://wangzongxu.github.io/categories/JS/"/>
+    
+    
+      <category term="JS" scheme="https://wangzongxu.github.io/tags/JS/"/>
+    
+  </entry>
+  
+  <entry>
     <title>中庸</title>
     <link href="https://wangzongxu.github.io/2018/02/13/ZhongYong/"/>
     <id>https://wangzongxu.github.io/2018/02/13/ZhongYong/</id>
-    <published>2018-02-13T07:49:35.380Z</published>
-    <updated>2018-02-13T07:49:35.380Z</updated>
+    <published>2018-02-13T08:07:58.620Z</published>
+    <updated>2018-02-13T08:09:29.890Z</updated>
     
     <content type="html"><![CDATA[<p>喜怒哀乐之未发谓之中，发之皆中节谓之和。</p>
 <a id="more"></a>
@@ -44,53 +95,395 @@
   </entry>
   
   <entry>
-    <title>demo之canvas打砖块</title>
-    <link href="https://wangzongxu.github.io/2017/09/21/hitBricks-canvas-demo/"/>
-    <id>https://wangzongxu.github.io/2017/09/21/hitBricks-canvas-demo/</id>
+    <title>http 状态码</title>
+    <link href="https://wangzongxu.github.io/2017/09/21/httpStatus/"/>
+    <id>https://wangzongxu.github.io/2017/09/21/httpStatus/</id>
     <published>2017-09-21T09:09:24.000Z</published>
     <updated>2017-09-21T09:09:24.000Z</updated>
     
-    <content type="html"><![CDATA[<p>一个canvas打砖块小游戏</p>
-<a id="more"></a>
-<blockquote>
-<p>扫码查看：</p>
-</blockquote>
-<p><img width="200" alt="" align="center" src="https://wangzongxu.github.io/img-cache/blog/hitBricksCode.png"></p>
+    <content type="html"><![CDATA[<p>整理一些http状态码。<br><a id="more"></a></p>
+<h3 id="1xx信息-Informational"><a href="#1xx信息-Informational" class="headerlink" title="1xx信息 Informational"></a>1xx信息 Informational</h3><table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>说明</th>
+<th>原文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100</td>
+<td>继续</td>
+<td>Continue</td>
+</tr>
+<tr>
+<td>101</td>
+<td>交换协议</td>
+<td>Switching Protocols</td>
+</tr>
+<tr>
+<td>102</td>
+<td>加工</td>
+<td>Processing</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2××成功-Success"><a href="#2××成功-Success" class="headerlink" title="2××成功 Success"></a>2××成功 Success</h3><table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>说明</th>
+<th>原文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>成功</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>201</td>
+<td>创建</td>
+<td>Created</td>
+</tr>
+<tr>
+<td>202</td>
+<td>接受</td>
+<td>Accepted</td>
+</tr>
+<tr>
+<td>203</td>
+<td>非权威信息</td>
+<td>Non-authoritative Information</td>
+</tr>
+<tr>
+<td>204</td>
+<td>无内容</td>
+<td>No Content</td>
+</tr>
+<tr>
+<td>205</td>
+<td>重置内容</td>
+<td>Reset Content</td>
+</tr>
+<tr>
+<td>206</td>
+<td>部分内容</td>
+<td>artial Content</td>
+</tr>
+<tr>
+<td>207</td>
+<td>多状态</td>
+<td>Multi-Status</td>
+</tr>
+<tr>
+<td>208</td>
+<td>已报告</td>
+<td>Already Reported</td>
+</tr>
+<tr>
+<td>226</td>
+<td>IM使用</td>
+<td>IM Used</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3××重定向-Redirection"><a href="#3××重定向-Redirection" class="headerlink" title="3××重定向 Redirection"></a>3××重定向 Redirection</h3><table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>说明</th>
+<th>原文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>300</td>
+<td>多项选择</td>
+<td>Multiple Choices</td>
+</tr>
+<tr>
+<td>301</td>
+<td>永久移动</td>
+<td>Moved Permanently</td>
+</tr>
+<tr>
+<td>302</td>
+<td>找到</td>
+<td>Found</td>
+</tr>
+<tr>
+<td>303</td>
+<td>见其他</td>
+<td>See Other</td>
+</tr>
+<tr>
+<td>304</td>
+<td>未修改</td>
+<td>Not Modified</td>
+</tr>
+<tr>
+<td>305</td>
+<td>使用代理</td>
+<td>Use Proxy</td>
+</tr>
+<tr>
+<td>307</td>
+<td>临时重定向</td>
+<td>emporary Redirect</td>
+</tr>
+<tr>
+<td>308</td>
+<td>永久重定向</td>
+<td>Permanent Redirect</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4××客户端错误-Client-Error"><a href="#4××客户端错误-Client-Error" class="headerlink" title="4××客户端错误 Client Error"></a>4××客户端错误 Client Error</h3><table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>说明</th>
+<th>原文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>400</td>
+<td>错误请求</td>
+<td>Bad Request</td>
+</tr>
+<tr>
+<td>401</td>
+<td>未经授权</td>
+<td>Unauthorized</td>
+</tr>
+<tr>
+<td>402</td>
+<td>付款需要</td>
+<td>Payment Required</td>
+</tr>
+<tr>
+<td>403</td>
+<td>禁止</td>
+<td>Forbidden</td>
+</tr>
+<tr>
+<td>404</td>
+<td>未找到</td>
+<td>Not Found</td>
+</tr>
+<tr>
+<td>405</td>
+<td>方法不允许</td>
+<td>Method Not Allowed</td>
+</tr>
+<tr>
+<td>406</td>
+<td>不可接受</td>
+<td>Not Acceptable</td>
+</tr>
+<tr>
+<td>407</td>
+<td>代理验证需要</td>
+<td>Proxy Authentication Required</td>
+</tr>
+<tr>
+<td>408</td>
+<td>请求超时</td>
+<td>Request Timeout</td>
+</tr>
+<tr>
+<td>409</td>
+<td>冲突</td>
+<td>Conflict</td>
+</tr>
+<tr>
+<td>410</td>
+<td>过时</td>
+<td>Gone</td>
+</tr>
+<tr>
+<td>411</td>
+<td>需要长度字段</td>
+<td>Length Required</td>
+</tr>
+<tr>
+<td>412</td>
+<td>前提条件失败</td>
+<td>Precondition Failed</td>
+</tr>
+<tr>
+<td>413</td>
+<td>有效负载太大</td>
+<td>Payload Too Large</td>
+</tr>
+<tr>
+<td>414</td>
+<td>请求URI太长</td>
+<td>Request-URI Too Long</td>
+</tr>
+<tr>
+<td>415</td>
+<td>不支持的介质类型</td>
+<td>Unsupported Media Type</td>
+</tr>
+<tr>
+<td>416</td>
+<td>请求范围不满意</td>
+<td>Requested Range Not Satisfiable</td>
+</tr>
+<tr>
+<td>417</td>
+<td>未满足期望值</td>
+<td>Expectation Failed</td>
+</tr>
+<tr>
+<td>418</td>
+<td>我是一个茶壶</td>
+<td>I’m a teapot</td>
+</tr>
+<tr>
+<td>421</td>
+<td>错误请求</td>
+<td>Misdirected Request</td>
+</tr>
+<tr>
+<td>422</td>
+<td>不可处理的实体</td>
+<td>Unprocessable Entity</td>
+</tr>
+<tr>
+<td>423</td>
+<td>锁定</td>
+<td>Locked</td>
+</tr>
+<tr>
+<td>424</td>
+<td>失败的依赖关系</td>
+<td>Failed Dependency</td>
+</tr>
+<tr>
+<td>426</td>
+<td>需要升级</td>
+<td>Upgrade Required</td>
+</tr>
+<tr>
+<td>428</td>
+<td>需要前提条件</td>
+<td>Precondition Required</td>
+</tr>
+<tr>
+<td>429</td>
+<td>太多请求</td>
+<td>Too Many Requests</td>
+</tr>
+<tr>
+<td>431</td>
+<td>请求标题字段太大</td>
+<td>Request Header Fields Too Large</td>
+</tr>
+<tr>
+<td>444</td>
+<td>连接没有响应关闭</td>
+<td>Connection Closed Without Response</td>
+</tr>
+<tr>
+<td>451</td>
+<td>不适用于法律理由</td>
+<td>Unavailable For Legal Reasons</td>
+</tr>
+<tr>
+<td>499</td>
+<td>客户关闭请求</td>
+<td>Client Closed Request</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5××服务器错误-Server-Error"><a href="#5××服务器错误-Server-Error" class="headerlink" title="5××服务器错误 Server Error"></a>5××服务器错误 Server Error</h3><table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>说明</th>
+<th>原文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>500</td>
+<td>内部服务器错误</td>
+<td>Internal Server Error</td>
+</tr>
+<tr>
+<td>501</td>
+<td>未实施</td>
+<td>Not Implemented</td>
+</tr>
+<tr>
+<td>502</td>
+<td>错误的网关</td>
+<td>Bad Gateway</td>
+</tr>
+<tr>
+<td>503</td>
+<td>服务不可用</td>
+<td>Service Unavailable</td>
+</tr>
+<tr>
+<td>504</td>
+<td>网关超时</td>
+<td>Gateway Timeout</td>
+</tr>
+<tr>
+<td>505</td>
+<td>HTTP版本不受支持</td>
+<td>HTTP Version Not Supported</td>
+</tr>
+<tr>
+<td>506</td>
+<td>变种也谈判</td>
+<td>Variant Also Negotiates</td>
+</tr>
+<tr>
+<td>507</td>
+<td>存储不足</td>
+<td>Insufficient Storage</td>
+</tr>
+<tr>
+<td>508</td>
+<td>检测到回路</td>
+<td>Loop Detected</td>
+</tr>
+<tr>
+<td>510</td>
+<td>未扩展</td>
+<td>Not Extended</td>
+</tr>
+<tr>
+<td>511</td>
+<td>网络认证需要</td>
+<td>Network Authentication Required</td>
+</tr>
+<tr>
+<td>599</td>
+<td>网络连接超时错误</td>
+<td>Network Connect Timeout Error</td>
+</tr>
+</tbody>
+</table>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;一个canvas打砖块小游戏&lt;/p&gt;
+      &lt;p&gt;整理一些http状态码。&lt;br&gt;
     
     </summary>
     
-      <category term="canvas" scheme="https://wangzongxu.github.io/categories/canvas/"/>
+      <category term="剪切板" scheme="https://wangzongxu.github.io/categories/%E5%89%AA%E5%88%87%E6%9D%BF/"/>
     
     
-      <category term="动画" scheme="https://wangzongxu.github.io/tags/%E5%8A%A8%E7%94%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>道德经</title>
-    <link href="https://wangzongxu.github.io/2017/09/21/TaoTeChing/"/>
-    <id>https://wangzongxu.github.io/2017/09/21/TaoTeChing/</id>
-    <published>2017-09-21T09:09:24.000Z</published>
-    <updated>2017-09-21T09:09:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>整理了一下道德经诸传本，加粗浅的字面解释；<br>道德经解释仁者见仁智者见智，需要有自己的理解，因为其中的玄妙不是能够用语言可以表达的，正所谓：道可道，非常道。<br><a id="more"></a><br><a href="https://wangzongxu.gitbooks.io/taoteching/content/" target="_blank" rel="external">点击阅读</a><br><a href="https://wangzongxu.gitbooks.io/taoteching/content/" target="_blank" rel="external">https://wangzongxu.gitbooks.io/taoteching/content/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;整理了一下道德经诸传本，加粗浅的字面解释；&lt;br&gt;道德经解释仁者见仁智者见智，需要有自己的理解，因为其中的玄妙不是能够用语言可以表达的，正所谓：道可道，非常道。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="国学" scheme="https://wangzongxu.github.io/categories/%E5%9B%BD%E5%AD%A6/"/>
-    
-    
-      <category term="电子书" scheme="https://wangzongxu.github.io/tags/%E7%94%B5%E5%AD%90%E4%B9%A6/"/>
+      <category term="网络" scheme="https://wangzongxu.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
@@ -527,34 +920,6 @@
   </entry>
   
   <entry>
-    <title>常用Chrome扩展工具</title>
-    <link href="https://wangzongxu.github.io/2017/09/21/chromeUtils/"/>
-    <id>https://wangzongxu.github.io/2017/09/21/chromeUtils/</id>
-    <published>2017-09-21T09:09:24.000Z</published>
-    <updated>2017-09-21T09:09:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>使用chrome前端开发，就少不了一些扩展程序来提升开发和调试效率，在这里整理一下常用的开发工具：<br><a id="more"></a></p>
-<h4 id="Axure-RP-Extension-for-Chrome"><a href="#Axure-RP-Extension-for-Chrome" class="headerlink" title="Axure RP Extension for Chrome"></a>Axure RP Extension for Chrome</h4><p>这个插件可以打开RP原型文件，本身chrome是不支持的。<br><img src="https://wangzongxu.github.io/img-cache/blog/axure.jpeg" width="300" alt="" align="center"></p>
-<h4 id="JavaScript-and-CSS-Code-Beautifier"><a href="#JavaScript-and-CSS-Code-Beautifier" class="headerlink" title="JavaScript and CSS Code Beautifier"></a>JavaScript and CSS Code Beautifier</h4><p>用于查看js、css等源码时对其进行高亮、格式化、美化、压缩等操作.<br><img src="https://wangzongxu.github.io/img-cache/blog/beautifulCode.png" width="600" alt="" align="center"></p>
-<h4 id="JSON-handle"><a href="#JSON-handle" class="headerlink" title="JSON-handle"></a>JSON-handle</h4><p>它是JSON文档的浏览器和编辑器，可以获得美丽的视图。<br><img src="https://wangzongxu.github.io/img-cache/blog/jsonHandle.png" width="600" alt="" align="center"></p>
-<h4 id="Wappalyzer"><a href="#Wappalyzer" class="headerlink" title="Wappalyzer"></a>Wappalyzer</h4><p>可以知道浏览的网站所用的技术。<br><img src="https://wangzongxu.github.io/img-cache/blog/wappalyzer.png" width="300" alt="" align="center"></p>
-<h4 id="whistle"><a href="#whistle" class="headerlink" title="whistle"></a>whistle</h4><p>whistle是一款用Node实现的跨平台的Web调试代理工具，支持查看修改http(s)、Websocket连接的请求和响应内容。<a href="https://avwo.github.io/whistle/" target="_blank" rel="external">官方中文教程</a><br><img src="https://wangzongxu.github.io/img-cache/blog/whistle1.png" width="200" alt="" align="center"><br><img src="https://wangzongxu.github.io/img-cache/blog/whistle2.png" width="600" alt="" align="center"><br><img src="https://wangzongxu.github.io/img-cache/blog/whistle3.png" width="600" alt="" align="center"></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;使用chrome前端开发，就少不了一些扩展程序来提升开发和调试效率，在这里整理一下常用的开发工具：&lt;br&gt;
-    
-    </summary>
-    
-      <category term="chrome" scheme="https://wangzongxu.github.io/categories/chrome/"/>
-    
-    
-      <category term="chrome" scheme="https://wangzongxu.github.io/tags/chrome/"/>
-    
-  </entry>
-  
-  <entry>
     <title>console.log打印漂亮的日志</title>
     <link href="https://wangzongxu.github.io/2017/09/21/console/"/>
     <id>https://wangzongxu.github.io/2017/09/21/console/</id>
@@ -591,6 +956,91 @@
     <summary type="html">
     
       &lt;p&gt;打开百度、天猫控制台，你都会发现漂亮的图案，是怎么做的呢？&lt;br&gt;
+    
+    </summary>
+    
+      <category term="JS" scheme="https://wangzongxu.github.io/categories/JS/"/>
+    
+    
+      <category term="JS" scheme="https://wangzongxu.github.io/tags/JS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>常用Chrome扩展工具</title>
+    <link href="https://wangzongxu.github.io/2017/09/21/chromeUtils/"/>
+    <id>https://wangzongxu.github.io/2017/09/21/chromeUtils/</id>
+    <published>2017-09-21T09:09:24.000Z</published>
+    <updated>2017-09-21T09:09:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>使用chrome前端开发，就少不了一些扩展程序来提升开发和调试效率，在这里整理一下常用的开发工具：<br><a id="more"></a></p>
+<h4 id="Axure-RP-Extension-for-Chrome"><a href="#Axure-RP-Extension-for-Chrome" class="headerlink" title="Axure RP Extension for Chrome"></a>Axure RP Extension for Chrome</h4><p>这个插件可以打开RP原型文件，本身chrome是不支持的。<br><img src="https://wangzongxu.github.io/img-cache/blog/axure.jpeg" width="300" alt="" align="center"></p>
+<h4 id="JavaScript-and-CSS-Code-Beautifier"><a href="#JavaScript-and-CSS-Code-Beautifier" class="headerlink" title="JavaScript and CSS Code Beautifier"></a>JavaScript and CSS Code Beautifier</h4><p>用于查看js、css等源码时对其进行高亮、格式化、美化、压缩等操作.<br><img src="https://wangzongxu.github.io/img-cache/blog/beautifulCode.png" width="600" alt="" align="center"></p>
+<h4 id="JSON-handle"><a href="#JSON-handle" class="headerlink" title="JSON-handle"></a>JSON-handle</h4><p>它是JSON文档的浏览器和编辑器，可以获得美丽的视图。<br><img src="https://wangzongxu.github.io/img-cache/blog/jsonHandle.png" width="600" alt="" align="center"></p>
+<h4 id="Wappalyzer"><a href="#Wappalyzer" class="headerlink" title="Wappalyzer"></a>Wappalyzer</h4><p>可以知道浏览的网站所用的技术。<br><img src="https://wangzongxu.github.io/img-cache/blog/wappalyzer.png" width="300" alt="" align="center"></p>
+<h4 id="whistle"><a href="#whistle" class="headerlink" title="whistle"></a>whistle</h4><p>whistle是一款用Node实现的跨平台的Web调试代理工具，支持查看修改http(s)、Websocket连接的请求和响应内容。<a href="https://avwo.github.io/whistle/" target="_blank" rel="external">官方中文教程</a><br><img src="https://wangzongxu.github.io/img-cache/blog/whistle1.png" width="200" alt="" align="center"><br><img src="https://wangzongxu.github.io/img-cache/blog/whistle2.png" width="600" alt="" align="center"><br><img src="https://wangzongxu.github.io/img-cache/blog/whistle3.png" width="600" alt="" align="center"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;使用chrome前端开发，就少不了一些扩展程序来提升开发和调试效率，在这里整理一下常用的开发工具：&lt;br&gt;
+    
+    </summary>
+    
+      <category term="chrome" scheme="https://wangzongxu.github.io/categories/chrome/"/>
+    
+    
+      <category term="chrome" scheme="https://wangzongxu.github.io/tags/chrome/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ES6函数参数解构典型问题</title>
+    <link href="https://wangzongxu.github.io/2017/09/21/decomposition-function-params/"/>
+    <id>https://wangzongxu.github.io/2017/09/21/decomposition-function-params/</id>
+    <published>2017-09-21T09:09:24.000Z</published>
+    <updated>2017-09-21T09:09:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>函数参数解构的一个典型问题</p>
+<a id="more"></a>
+<h3 id="首先对比两个例子"><a href="#首先对比两个例子" class="headerlink" title="首先对比两个例子"></a>首先对比两个例子</h3><blockquote>
+<p>例子一</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params">&#123;x = <span class="number">0</span>, y = <span class="number">0</span>&#125; = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">move(&#123;<span class="attr">x</span>: <span class="number">3</span>, <span class="attr">y</span>: <span class="number">8</span>&#125;); <span class="comment">// [3, 8]</span></span><br><span class="line">move(&#123;<span class="attr">x</span>: <span class="number">3</span>&#125;); <span class="comment">// [3, 0]</span></span><br><span class="line">move(&#123;&#125;); <span class="comment">// [0, 0]</span></span><br><span class="line">move();  <span class="comment">// [0, 0]</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>例子二</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params">&#123;x, y&#125; = &#123; x: <span class="number">0</span>, y: <span class="number">0</span> &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">move(&#123;<span class="attr">x</span>: <span class="number">3</span>, <span class="attr">y</span>: <span class="number">8</span>&#125;); <span class="comment">// [3, 8]</span></span><br><span class="line">move(&#123;<span class="attr">x</span>: <span class="number">3</span>&#125;); <span class="comment">// [3, undefined]</span></span><br><span class="line">move(&#123;&#125;); <span class="comment">// [undefined, undefined]</span></span><br><span class="line">move(); <span class="comment">// [0, 0]</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>不能理解结果的话继续往下看^_^</li>
+</ul>
+<h3 id="从babel转码看解构原理"><a href="#从babel转码看解构原理" class="headerlink" title="从babel转码看解构原理"></a>从babel转码看解构原理</h3><p>利用babel<a href="https://babeljs.io/repl/" target="_blank" rel="external">在线转码</a>方便学习解构的原理:</p>
+<ul>
+<li>再次分析函数的参数</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params">&#123;x = <span class="number">0</span>, y = <span class="number">0</span>&#125; = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>我们将上边函数参数分为两部分，等号前边 {x = 0, y = 0} 称之为模式，等号后边 {} 是称之为默认参数，如果函数执行时没有传参，则会取默认参数。</li>
+</ul>
+<blockquote>
+<p>babel转码后的例子一</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> _ref = <span class="built_in">arguments</span>.length &gt; <span class="number">0</span> &amp;&amp; <span class="built_in">arguments</span>[<span class="number">0</span>] !== <span class="literal">undefined</span> ? <span class="built_in">arguments</span>[<span class="number">0</span>] : &#123;&#125;;</span><br><span class="line">  <span class="comment">// 如果没有传参，那么取默认值空对象&#123;&#125;</span></span><br><span class="line">  <span class="keyword">var</span> _ref$x = _ref.x;</span><br><span class="line">  <span class="comment">// 模式对参数进行解构：取参数的x值</span></span><br><span class="line">  <span class="keyword">var</span> x = _ref$x === <span class="literal">undefined</span> ? <span class="number">0</span> : _ref$x;</span><br><span class="line">  <span class="comment">// 模式中的x有默认值，所以当被解构的参数中没有x，则取模式中的x值：0</span></span><br><span class="line">  <span class="keyword">var</span> _ref$y = _ref.y;</span><br><span class="line">  <span class="comment">// 模式对参数进行解构：取参数的y值</span></span><br><span class="line">  <span class="keyword">var</span> y = _ref$y === <span class="literal">undefined</span> ? <span class="number">0</span> : _ref$y;</span><br><span class="line">  <span class="comment">// 模式中的y有默认值，所以当被解构的参数中没有y，则取模式中的y值：0</span></span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">move(&#123; <span class="attr">x</span>: <span class="number">3</span>, <span class="attr">y</span>: <span class="number">8</span> &#125;);</span><br><span class="line"><span class="comment">// 传递了参数 &#123; x: 3, y: 8 &#125; 则模式对该参数进行解构，结果为：[3, 8]</span></span><br><span class="line">move(&#123; <span class="attr">x</span>: <span class="number">3</span> &#125;);</span><br><span class="line"><span class="comment">// 传递了参数 &#123; x: 3 &#125; 则模式对该参数进行解构，解构过程中x成功取值:3，由于参数中没有y，所以y值取值失败，失败后取模式中的y默认值0，所以结果为：[3, 0]</span></span><br><span class="line">move(&#123;&#125;);</span><br><span class="line"><span class="comment">// 传递了参数空对象&#123;&#125; 则模式对该空对象进行解构，由于该参数中xy都没有，所以都取模式中xy默认值0，最后结果为[0, 0]</span></span><br><span class="line">move();</span><br><span class="line"><span class="comment">// 没有传递参数，则取默认参数空对象 &#123;&#125;，模式对默认参数进行解构，和上边一样，参数中xy都没有，所以都取模式中xy默认值0，最后结果为[0, 0]</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>babel转码后的例子二</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> _ref2 = <span class="built_in">arguments</span>.length &gt; <span class="number">0</span> &amp;&amp; <span class="built_in">arguments</span>[<span class="number">0</span>] !== <span class="literal">undefined</span> ? <span class="built_in">arguments</span>[<span class="number">0</span>] : &#123; <span class="attr">x</span>: <span class="number">0</span>, <span class="attr">y</span>: <span class="number">0</span> &#125;;</span><br><span class="line">  <span class="comment">// 如果没有传参，那么取默认值：&#123; x: 0, y: 0 &#125;</span></span><br><span class="line">  <span class="keyword">var</span> x = _ref2.x;</span><br><span class="line">  <span class="comment">// 模式对参数进行解构：取参数的x值</span></span><br><span class="line">  <span class="keyword">var</span> y = _ref2.y;</span><br><span class="line">  <span class="comment">// 模式对参数进行解构：取参数的y值</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">move(&#123; <span class="attr">x</span>: <span class="number">3</span>, <span class="attr">y</span>: <span class="number">8</span> &#125;);</span><br><span class="line"><span class="comment">// 传递了参数 &#123; x: 3, y: 8 &#125; 则模式对该参数进行解构，结果为：[3, 8]</span></span><br><span class="line">move(&#123; <span class="attr">x</span>: <span class="number">3</span> &#125;);</span><br><span class="line"><span class="comment">// 传递了参数 &#123; x: 3 &#125;，模式对该参数进行解构，解构过程中x成功取值:3，由于参数中没有y，所以y值取值失败，此时模式中也没有指定y的默认值，所以结果为：[3, undefined]</span></span><br><span class="line">move(&#123;&#125;);</span><br><span class="line"><span class="comment">// 传递了参数空对象 &#123;&#125;，模式对参数空对象进行解构，xy皆取值失败，模式中xy也并没有默认值，所以最后结果为：[undefined, undefined]</span></span><br><span class="line">move();</span><br><span class="line"><span class="comment">// 没有传递参数，则取默认参数&#123; x: 0, y: 0 &#125;，模式对默认参数进行解构，x取值0，取值0，所以结果为[0, 0]</span></span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>当一个函数执行时要看该函数在定义过程中是否有默认参数，模式中是否有默认值：<br>首先根据是否传参和是否有默认参数来确定参数是谁，然后将模式对参数进行解构。<br>结构过程中如果解构失败要根据模式中是否指定了默认值来确定最后取值。<br>逻辑比较乱，多多练习，慢慢体会。</p>
+<ul>
+<li>取值过程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">if (有默认参数) &#123;</span><br><span class="line">    if (执行时传参了) &#123;</span><br><span class="line">        将模式对参数解构</span><br><span class="line">         if (解构成功) &#123;</span><br><span class="line">             最终取值成功解构的值</span><br><span class="line">         &#125; else &#123;</span><br><span class="line">             if (模式中制定了默认值) &#123;</span><br><span class="line">                最终取模式中默认值</span><br><span class="line">             &#125; else &#123;</span><br><span class="line">                取值undefined</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125; else &#123;</span><br><span class="line">        将模式对默认参数解构</span><br><span class="line">        if (解构成功) &#123;</span><br><span class="line">            最终取值成功解构的值</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (模式中制定了默认值) &#123;</span><br><span class="line">                最终取模式中默认值</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                取值undefined</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    if (执行时传参了) &#123;</span><br><span class="line">       最终以执行传递的参数为准</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">       最终参数为undefined</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>(完)</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;函数参数解构的一个典型问题&lt;/p&gt;
     
     </summary>
     
@@ -2064,63 +2514,6 @@
   </entry>
   
   <entry>
-    <title>ES6函数参数解构典型问题</title>
-    <link href="https://wangzongxu.github.io/2017/09/21/decomposition-function-params/"/>
-    <id>https://wangzongxu.github.io/2017/09/21/decomposition-function-params/</id>
-    <published>2017-09-21T09:09:24.000Z</published>
-    <updated>2017-09-21T09:09:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>函数参数解构的一个典型问题</p>
-<a id="more"></a>
-<h3 id="首先对比两个例子"><a href="#首先对比两个例子" class="headerlink" title="首先对比两个例子"></a>首先对比两个例子</h3><blockquote>
-<p>例子一</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params">&#123;x = <span class="number">0</span>, y = <span class="number">0</span>&#125; = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">move(&#123;<span class="attr">x</span>: <span class="number">3</span>, <span class="attr">y</span>: <span class="number">8</span>&#125;); <span class="comment">// [3, 8]</span></span><br><span class="line">move(&#123;<span class="attr">x</span>: <span class="number">3</span>&#125;); <span class="comment">// [3, 0]</span></span><br><span class="line">move(&#123;&#125;); <span class="comment">// [0, 0]</span></span><br><span class="line">move();  <span class="comment">// [0, 0]</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>例子二</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params">&#123;x, y&#125; = &#123; x: <span class="number">0</span>, y: <span class="number">0</span> &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">move(&#123;<span class="attr">x</span>: <span class="number">3</span>, <span class="attr">y</span>: <span class="number">8</span>&#125;); <span class="comment">// [3, 8]</span></span><br><span class="line">move(&#123;<span class="attr">x</span>: <span class="number">3</span>&#125;); <span class="comment">// [3, undefined]</span></span><br><span class="line">move(&#123;&#125;); <span class="comment">// [undefined, undefined]</span></span><br><span class="line">move(); <span class="comment">// [0, 0]</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>不能理解结果的话继续往下看^_^</li>
-</ul>
-<h3 id="从babel转码看解构原理"><a href="#从babel转码看解构原理" class="headerlink" title="从babel转码看解构原理"></a>从babel转码看解构原理</h3><p>利用babel<a href="https://babeljs.io/repl/" target="_blank" rel="external">在线转码</a>方便学习解构的原理:</p>
-<ul>
-<li>再次分析函数的参数</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params">&#123;x = <span class="number">0</span>, y = <span class="number">0</span>&#125; = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>我们将上边函数参数分为两部分，等号前边 {x = 0, y = 0} 称之为模式，等号后边 {} 是称之为默认参数，如果函数执行时没有传参，则会取默认参数。</li>
-</ul>
-<blockquote>
-<p>babel转码后的例子一</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> _ref = <span class="built_in">arguments</span>.length &gt; <span class="number">0</span> &amp;&amp; <span class="built_in">arguments</span>[<span class="number">0</span>] !== <span class="literal">undefined</span> ? <span class="built_in">arguments</span>[<span class="number">0</span>] : &#123;&#125;;</span><br><span class="line">  <span class="comment">// 如果没有传参，那么取默认值空对象&#123;&#125;</span></span><br><span class="line">  <span class="keyword">var</span> _ref$x = _ref.x;</span><br><span class="line">  <span class="comment">// 模式对参数进行解构：取参数的x值</span></span><br><span class="line">  <span class="keyword">var</span> x = _ref$x === <span class="literal">undefined</span> ? <span class="number">0</span> : _ref$x;</span><br><span class="line">  <span class="comment">// 模式中的x有默认值，所以当被解构的参数中没有x，则取模式中的x值：0</span></span><br><span class="line">  <span class="keyword">var</span> _ref$y = _ref.y;</span><br><span class="line">  <span class="comment">// 模式对参数进行解构：取参数的y值</span></span><br><span class="line">  <span class="keyword">var</span> y = _ref$y === <span class="literal">undefined</span> ? <span class="number">0</span> : _ref$y;</span><br><span class="line">  <span class="comment">// 模式中的y有默认值，所以当被解构的参数中没有y，则取模式中的y值：0</span></span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">move(&#123; <span class="attr">x</span>: <span class="number">3</span>, <span class="attr">y</span>: <span class="number">8</span> &#125;);</span><br><span class="line"><span class="comment">// 传递了参数 &#123; x: 3, y: 8 &#125; 则模式对该参数进行解构，结果为：[3, 8]</span></span><br><span class="line">move(&#123; <span class="attr">x</span>: <span class="number">3</span> &#125;);</span><br><span class="line"><span class="comment">// 传递了参数 &#123; x: 3 &#125; 则模式对该参数进行解构，解构过程中x成功取值:3，由于参数中没有y，所以y值取值失败，失败后取模式中的y默认值0，所以结果为：[3, 0]</span></span><br><span class="line">move(&#123;&#125;);</span><br><span class="line"><span class="comment">// 传递了参数空对象&#123;&#125; 则模式对该空对象进行解构，由于该参数中xy都没有，所以都取模式中xy默认值0，最后结果为[0, 0]</span></span><br><span class="line">move();</span><br><span class="line"><span class="comment">// 没有传递参数，则取默认参数空对象 &#123;&#125;，模式对默认参数进行解构，和上边一样，参数中xy都没有，所以都取模式中xy默认值0，最后结果为[0, 0]</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>babel转码后的例子二</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> _ref2 = <span class="built_in">arguments</span>.length &gt; <span class="number">0</span> &amp;&amp; <span class="built_in">arguments</span>[<span class="number">0</span>] !== <span class="literal">undefined</span> ? <span class="built_in">arguments</span>[<span class="number">0</span>] : &#123; <span class="attr">x</span>: <span class="number">0</span>, <span class="attr">y</span>: <span class="number">0</span> &#125;;</span><br><span class="line">  <span class="comment">// 如果没有传参，那么取默认值：&#123; x: 0, y: 0 &#125;</span></span><br><span class="line">  <span class="keyword">var</span> x = _ref2.x;</span><br><span class="line">  <span class="comment">// 模式对参数进行解构：取参数的x值</span></span><br><span class="line">  <span class="keyword">var</span> y = _ref2.y;</span><br><span class="line">  <span class="comment">// 模式对参数进行解构：取参数的y值</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">move(&#123; <span class="attr">x</span>: <span class="number">3</span>, <span class="attr">y</span>: <span class="number">8</span> &#125;);</span><br><span class="line"><span class="comment">// 传递了参数 &#123; x: 3, y: 8 &#125; 则模式对该参数进行解构，结果为：[3, 8]</span></span><br><span class="line">move(&#123; <span class="attr">x</span>: <span class="number">3</span> &#125;);</span><br><span class="line"><span class="comment">// 传递了参数 &#123; x: 3 &#125;，模式对该参数进行解构，解构过程中x成功取值:3，由于参数中没有y，所以y值取值失败，此时模式中也没有指定y的默认值，所以结果为：[3, undefined]</span></span><br><span class="line">move(&#123;&#125;);</span><br><span class="line"><span class="comment">// 传递了参数空对象 &#123;&#125;，模式对参数空对象进行解构，xy皆取值失败，模式中xy也并没有默认值，所以最后结果为：[undefined, undefined]</span></span><br><span class="line">move();</span><br><span class="line"><span class="comment">// 没有传递参数，则取默认参数&#123; x: 0, y: 0 &#125;，模式对默认参数进行解构，x取值0，取值0，所以结果为[0, 0]</span></span><br></pre></td></tr></table></figure>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>当一个函数执行时要看该函数在定义过程中是否有默认参数，模式中是否有默认值：<br>首先根据是否传参和是否有默认参数来确定参数是谁，然后将模式对参数进行解构。<br>结构过程中如果解构失败要根据模式中是否指定了默认值来确定最后取值。<br>逻辑比较乱，多多练习，慢慢体会。</p>
-<ul>
-<li>取值过程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">if (有默认参数) &#123;</span><br><span class="line">    if (执行时传参了) &#123;</span><br><span class="line">        将模式对参数解构</span><br><span class="line">         if (解构成功) &#123;</span><br><span class="line">             最终取值成功解构的值</span><br><span class="line">         &#125; else &#123;</span><br><span class="line">             if (模式中制定了默认值) &#123;</span><br><span class="line">                最终取模式中默认值</span><br><span class="line">             &#125; else &#123;</span><br><span class="line">                取值undefined</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125; else &#123;</span><br><span class="line">        将模式对默认参数解构</span><br><span class="line">        if (解构成功) &#123;</span><br><span class="line">            最终取值成功解构的值</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (模式中制定了默认值) &#123;</span><br><span class="line">                最终取模式中默认值</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                取值undefined</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    if (执行时传参了) &#123;</span><br><span class="line">       最终以执行传递的参数为准</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">       最终参数为undefined</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>(完)</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;函数参数解构的一个典型问题&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="JS" scheme="https://wangzongxu.github.io/categories/JS/"/>
-    
-    
-      <category term="JS" scheme="https://wangzongxu.github.io/tags/JS/"/>
-    
-  </entry>
-  
-  <entry>
     <title>前端优化技巧</title>
     <link href="https://wangzongxu.github.io/2017/09/21/front-end-optimzation/"/>
     <id>https://wangzongxu.github.io/2017/09/21/front-end-optimzation/</id>
@@ -2237,6 +2630,34 @@
   </entry>
   
   <entry>
+    <title>demo之canvas打砖块</title>
+    <link href="https://wangzongxu.github.io/2017/09/21/hitBricks-canvas-demo/"/>
+    <id>https://wangzongxu.github.io/2017/09/21/hitBricks-canvas-demo/</id>
+    <published>2017-09-21T09:09:24.000Z</published>
+    <updated>2017-09-21T09:09:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>一个canvas打砖块小游戏</p>
+<a id="more"></a>
+<blockquote>
+<p>扫码查看：</p>
+</blockquote>
+<p><img width="200" alt="" align="center" src="https://wangzongxu.github.io/img-cache/blog/hitBricksCode.png"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;一个canvas打砖块小游戏&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="canvas" scheme="https://wangzongxu.github.io/categories/canvas/"/>
+    
+    
+      <category term="动画" scheme="https://wangzongxu.github.io/tags/%E5%8A%A8%E7%94%BB/"/>
+    
+  </entry>
+  
+  <entry>
     <title>BS 架构概述</title>
     <link href="https://wangzongxu.github.io/2017/09/21/BS/"/>
     <id>https://wangzongxu.github.io/2017/09/21/BS/</id>
@@ -2302,399 +2723,6 @@
     <summary type="html">
     
       &lt;p&gt;B/S结构即浏览器和服务器结构。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="剪切板" scheme="https://wangzongxu.github.io/categories/%E5%89%AA%E5%88%87%E6%9D%BF/"/>
-    
-    
-      <category term="网络" scheme="https://wangzongxu.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>http 状态码</title>
-    <link href="https://wangzongxu.github.io/2017/09/21/httpStatus/"/>
-    <id>https://wangzongxu.github.io/2017/09/21/httpStatus/</id>
-    <published>2017-09-21T09:09:24.000Z</published>
-    <updated>2017-09-21T09:09:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>整理一些http状态码。<br><a id="more"></a></p>
-<h3 id="1xx信息-Informational"><a href="#1xx信息-Informational" class="headerlink" title="1xx信息 Informational"></a>1xx信息 Informational</h3><table>
-<thead>
-<tr>
-<th>状态码</th>
-<th>说明</th>
-<th>原文</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>100</td>
-<td>继续</td>
-<td>Continue</td>
-</tr>
-<tr>
-<td>101</td>
-<td>交换协议</td>
-<td>Switching Protocols</td>
-</tr>
-<tr>
-<td>102</td>
-<td>加工</td>
-<td>Processing</td>
-</tr>
-</tbody>
-</table>
-<h3 id="2××成功-Success"><a href="#2××成功-Success" class="headerlink" title="2××成功 Success"></a>2××成功 Success</h3><table>
-<thead>
-<tr>
-<th>状态码</th>
-<th>说明</th>
-<th>原文</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>200</td>
-<td>成功</td>
-<td>OK</td>
-</tr>
-<tr>
-<td>201</td>
-<td>创建</td>
-<td>Created</td>
-</tr>
-<tr>
-<td>202</td>
-<td>接受</td>
-<td>Accepted</td>
-</tr>
-<tr>
-<td>203</td>
-<td>非权威信息</td>
-<td>Non-authoritative Information</td>
-</tr>
-<tr>
-<td>204</td>
-<td>无内容</td>
-<td>No Content</td>
-</tr>
-<tr>
-<td>205</td>
-<td>重置内容</td>
-<td>Reset Content</td>
-</tr>
-<tr>
-<td>206</td>
-<td>部分内容</td>
-<td>artial Content</td>
-</tr>
-<tr>
-<td>207</td>
-<td>多状态</td>
-<td>Multi-Status</td>
-</tr>
-<tr>
-<td>208</td>
-<td>已报告</td>
-<td>Already Reported</td>
-</tr>
-<tr>
-<td>226</td>
-<td>IM使用</td>
-<td>IM Used</td>
-</tr>
-</tbody>
-</table>
-<h3 id="3××重定向-Redirection"><a href="#3××重定向-Redirection" class="headerlink" title="3××重定向 Redirection"></a>3××重定向 Redirection</h3><table>
-<thead>
-<tr>
-<th>状态码</th>
-<th>说明</th>
-<th>原文</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>300</td>
-<td>多项选择</td>
-<td>Multiple Choices</td>
-</tr>
-<tr>
-<td>301</td>
-<td>永久移动</td>
-<td>Moved Permanently</td>
-</tr>
-<tr>
-<td>302</td>
-<td>找到</td>
-<td>Found</td>
-</tr>
-<tr>
-<td>303</td>
-<td>见其他</td>
-<td>See Other</td>
-</tr>
-<tr>
-<td>304</td>
-<td>未修改</td>
-<td>Not Modified</td>
-</tr>
-<tr>
-<td>305</td>
-<td>使用代理</td>
-<td>Use Proxy</td>
-</tr>
-<tr>
-<td>307</td>
-<td>临时重定向</td>
-<td>emporary Redirect</td>
-</tr>
-<tr>
-<td>308</td>
-<td>永久重定向</td>
-<td>Permanent Redirect</td>
-</tr>
-</tbody>
-</table>
-<h3 id="4××客户端错误-Client-Error"><a href="#4××客户端错误-Client-Error" class="headerlink" title="4××客户端错误 Client Error"></a>4××客户端错误 Client Error</h3><table>
-<thead>
-<tr>
-<th>状态码</th>
-<th>说明</th>
-<th>原文</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>400</td>
-<td>错误请求</td>
-<td>Bad Request</td>
-</tr>
-<tr>
-<td>401</td>
-<td>未经授权</td>
-<td>Unauthorized</td>
-</tr>
-<tr>
-<td>402</td>
-<td>付款需要</td>
-<td>Payment Required</td>
-</tr>
-<tr>
-<td>403</td>
-<td>禁止</td>
-<td>Forbidden</td>
-</tr>
-<tr>
-<td>404</td>
-<td>未找到</td>
-<td>Not Found</td>
-</tr>
-<tr>
-<td>405</td>
-<td>方法不允许</td>
-<td>Method Not Allowed</td>
-</tr>
-<tr>
-<td>406</td>
-<td>不可接受</td>
-<td>Not Acceptable</td>
-</tr>
-<tr>
-<td>407</td>
-<td>代理验证需要</td>
-<td>Proxy Authentication Required</td>
-</tr>
-<tr>
-<td>408</td>
-<td>请求超时</td>
-<td>Request Timeout</td>
-</tr>
-<tr>
-<td>409</td>
-<td>冲突</td>
-<td>Conflict</td>
-</tr>
-<tr>
-<td>410</td>
-<td>过时</td>
-<td>Gone</td>
-</tr>
-<tr>
-<td>411</td>
-<td>需要长度字段</td>
-<td>Length Required</td>
-</tr>
-<tr>
-<td>412</td>
-<td>前提条件失败</td>
-<td>Precondition Failed</td>
-</tr>
-<tr>
-<td>413</td>
-<td>有效负载太大</td>
-<td>Payload Too Large</td>
-</tr>
-<tr>
-<td>414</td>
-<td>请求URI太长</td>
-<td>Request-URI Too Long</td>
-</tr>
-<tr>
-<td>415</td>
-<td>不支持的介质类型</td>
-<td>Unsupported Media Type</td>
-</tr>
-<tr>
-<td>416</td>
-<td>请求范围不满意</td>
-<td>Requested Range Not Satisfiable</td>
-</tr>
-<tr>
-<td>417</td>
-<td>未满足期望值</td>
-<td>Expectation Failed</td>
-</tr>
-<tr>
-<td>418</td>
-<td>我是一个茶壶</td>
-<td>I’m a teapot</td>
-</tr>
-<tr>
-<td>421</td>
-<td>错误请求</td>
-<td>Misdirected Request</td>
-</tr>
-<tr>
-<td>422</td>
-<td>不可处理的实体</td>
-<td>Unprocessable Entity</td>
-</tr>
-<tr>
-<td>423</td>
-<td>锁定</td>
-<td>Locked</td>
-</tr>
-<tr>
-<td>424</td>
-<td>失败的依赖关系</td>
-<td>Failed Dependency</td>
-</tr>
-<tr>
-<td>426</td>
-<td>需要升级</td>
-<td>Upgrade Required</td>
-</tr>
-<tr>
-<td>428</td>
-<td>需要前提条件</td>
-<td>Precondition Required</td>
-</tr>
-<tr>
-<td>429</td>
-<td>太多请求</td>
-<td>Too Many Requests</td>
-</tr>
-<tr>
-<td>431</td>
-<td>请求标题字段太大</td>
-<td>Request Header Fields Too Large</td>
-</tr>
-<tr>
-<td>444</td>
-<td>连接没有响应关闭</td>
-<td>Connection Closed Without Response</td>
-</tr>
-<tr>
-<td>451</td>
-<td>不适用于法律理由</td>
-<td>Unavailable For Legal Reasons</td>
-</tr>
-<tr>
-<td>499</td>
-<td>客户关闭请求</td>
-<td>Client Closed Request</td>
-</tr>
-</tbody>
-</table>
-<h3 id="5××服务器错误-Server-Error"><a href="#5××服务器错误-Server-Error" class="headerlink" title="5××服务器错误 Server Error"></a>5××服务器错误 Server Error</h3><table>
-<thead>
-<tr>
-<th>状态码</th>
-<th>说明</th>
-<th>原文</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>500</td>
-<td>内部服务器错误</td>
-<td>Internal Server Error</td>
-</tr>
-<tr>
-<td>501</td>
-<td>未实施</td>
-<td>Not Implemented</td>
-</tr>
-<tr>
-<td>502</td>
-<td>错误的网关</td>
-<td>Bad Gateway</td>
-</tr>
-<tr>
-<td>503</td>
-<td>服务不可用</td>
-<td>Service Unavailable</td>
-</tr>
-<tr>
-<td>504</td>
-<td>网关超时</td>
-<td>Gateway Timeout</td>
-</tr>
-<tr>
-<td>505</td>
-<td>HTTP版本不受支持</td>
-<td>HTTP Version Not Supported</td>
-</tr>
-<tr>
-<td>506</td>
-<td>变种也谈判</td>
-<td>Variant Also Negotiates</td>
-</tr>
-<tr>
-<td>507</td>
-<td>存储不足</td>
-<td>Insufficient Storage</td>
-</tr>
-<tr>
-<td>508</td>
-<td>检测到回路</td>
-<td>Loop Detected</td>
-</tr>
-<tr>
-<td>510</td>
-<td>未扩展</td>
-<td>Not Extended</td>
-</tr>
-<tr>
-<td>511</td>
-<td>网络认证需要</td>
-<td>Network Authentication Required</td>
-</tr>
-<tr>
-<td>599</td>
-<td>网络连接超时错误</td>
-<td>Network Connect Timeout Error</td>
-</tr>
-</tbody>
-</table>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;整理一些http状态码。&lt;br&gt;
     
     </summary>
     
@@ -2958,6 +2986,29 @@
     
     
       <category term="草稿" scheme="https://wangzongxu.github.io/tags/%E8%8D%89%E7%A8%BF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>道德经</title>
+    <link href="https://wangzongxu.github.io/2017/09/21/TaoTeChing/"/>
+    <id>https://wangzongxu.github.io/2017/09/21/TaoTeChing/</id>
+    <published>2017-09-21T09:09:24.000Z</published>
+    <updated>2017-09-21T09:09:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>整理了一下道德经诸传本，加粗浅的字面解释；<br>道德经解释仁者见仁智者见智，需要有自己的理解，因为其中的玄妙不是能够用语言可以表达的，正所谓：道可道，非常道。<br><a id="more"></a><br><a href="https://wangzongxu.gitbooks.io/taoteching/content/" target="_blank" rel="external">点击阅读</a><br><a href="https://wangzongxu.gitbooks.io/taoteching/content/" target="_blank" rel="external">https://wangzongxu.gitbooks.io/taoteching/content/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;整理了一下道德经诸传本，加粗浅的字面解释；&lt;br&gt;道德经解释仁者见仁智者见智，需要有自己的理解，因为其中的玄妙不是能够用语言可以表达的，正所谓：道可道，非常道。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="国学" scheme="https://wangzongxu.github.io/categories/%E5%9B%BD%E5%AD%A6/"/>
+    
+    
+      <category term="电子书" scheme="https://wangzongxu.github.io/tags/%E7%94%B5%E5%AD%90%E4%B9%A6/"/>
     
   </entry>
   
@@ -3359,33 +3410,6 @@
     
     
       <category term="正则" scheme="https://wangzongxu.github.io/tags/%E6%AD%A3%E5%88%99/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Restful</title>
-    <link href="https://wangzongxu.github.io/2017/09/21/resuful/"/>
-    <id>https://wangzongxu.github.io/2017/09/21/resuful/</id>
-    <published>2017-09-21T09:09:24.000Z</published>
-    <updated>2017-09-21T09:09:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>理解RESTful架构 &amp; RESTful API 设计指南<br><a id="more"></a></p>
-<p><a href="http://www.ruanyifeng.com/blog/2011/09/restful" target="_blank" rel="external">理解RESTful架构</a><br><a href="http://www.ruanyifeng.com/blog/2014/05/restful_api.html" target="_blank" rel="external">RESTful API 设计指南</a></p>
-<blockquote>
-<p>摘自：阮一峰网络日志</p>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;理解RESTful架构 &amp;amp; RESTful API 设计指南&lt;br&gt;
-    
-    </summary>
-    
-      <category term="剪切板" scheme="https://wangzongxu.github.io/categories/%E5%89%AA%E5%88%87%E6%9D%BF/"/>
-    
-    
-      <category term="网络" scheme="https://wangzongxu.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   

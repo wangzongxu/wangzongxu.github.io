@@ -4,12 +4,32 @@
 
     
   <url>
+    <loc>https://wangzongxu.github.io/2018/02/13/promise-demo1/</loc>
+    <lastmod>2018-02-13T08:19:14.714Z</lastmod>
+    <data>
+        <display>
+        <title>一个关于Promise执行顺序的小例子</title>
+        <pubTime>2018-02-13T08:08:01.355Z</pubTime>
+        
+        <tag>JS</tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="https://wangzongxu.github.io/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://wangzongxu.github.io/2018/02/13/ZhongYong/</loc>
-    <lastmod>2018-02-13T07:49:35.380Z</lastmod>
+    <lastmod>2018-02-13T08:09:29.890Z</lastmod>
     <data>
         <display>
         <title>中庸</title>
-        <pubTime>2018-02-13T07:49:35.380Z</pubTime>
+        <pubTime>2018-02-13T08:07:58.620Z</pubTime>
         
         <tag>电子书</tag>
          
@@ -24,39 +44,19 @@
 
     
   <url>
-    <loc>https://wangzongxu.github.io/2017/09/21/hitBricks-canvas-demo/</loc>
+    <loc>https://wangzongxu.github.io/2017/09/21/httpStatus/</loc>
     <lastmod>2017-09-21T09:09:24.000Z</lastmod>
     <data>
         <display>
-        <title>demo之canvas打砖块</title>
+        <title>http 状态码</title>
         <pubTime>2017-09-21T09:09:24.000Z</pubTime>
         
-        <tag>动画</tag>
+        <tag>网络</tag>
          
          
            
              
-              <breadCrumb title="canvas" url="https://wangzongxu.github.io/categories/canvas/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://wangzongxu.github.io/2017/09/21/TaoTeChing/</loc>
-    <lastmod>2017-09-21T09:09:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>道德经</title>
-        <pubTime>2017-09-21T09:09:24.000Z</pubTime>
-        
-        <tag>电子书</tag>
-         
-         
-           
-             
-              <breadCrumb title="国学" url="https://wangzongxu.github.io/categories/%E5%9B%BD%E5%AD%A6/"/>
+              <breadCrumb title="剪切板" url="https://wangzongxu.github.io/categories/%E5%89%AA%E5%88%87%E6%9D%BF/"/>
           
         </display>
     </data>
@@ -124,6 +124,26 @@
 
     
   <url>
+    <loc>https://wangzongxu.github.io/2017/09/21/console/</loc>
+    <lastmod>2017-09-21T09:09:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>console.log打印漂亮的日志</title>
+        <pubTime>2017-09-21T09:09:24.000Z</pubTime>
+        
+        <tag>JS</tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="https://wangzongxu.github.io/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://wangzongxu.github.io/2017/09/21/chromeUtils/</loc>
     <lastmod>2017-09-21T09:09:24.000Z</lastmod>
     <data>
@@ -144,11 +164,11 @@
 
     
   <url>
-    <loc>https://wangzongxu.github.io/2017/09/21/console/</loc>
+    <loc>https://wangzongxu.github.io/2017/09/21/decomposition-function-params/</loc>
     <lastmod>2017-09-21T09:09:24.000Z</lastmod>
     <data>
         <display>
-        <title>console.log打印漂亮的日志</title>
+        <title>ES6函数参数解构典型问题</title>
         <pubTime>2017-09-21T09:09:24.000Z</pubTime>
         
         <tag>JS</tag>
@@ -177,26 +197,6 @@
            
              
               <breadCrumb title="代码风格" url="https://wangzongxu.github.io/categories/%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://wangzongxu.github.io/2017/09/21/decomposition-function-params/</loc>
-    <lastmod>2017-09-21T09:09:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>ES6函数参数解构典型问题</title>
-        <pubTime>2017-09-21T09:09:24.000Z</pubTime>
-        
-        <tag>JS</tag>
-         
-         
-           
-             
-              <breadCrumb title="JS" url="https://wangzongxu.github.io/categories/JS/"/>
           
         </display>
     </data>
@@ -244,19 +244,19 @@
 
     
   <url>
-    <loc>https://wangzongxu.github.io/2017/09/21/BS/</loc>
+    <loc>https://wangzongxu.github.io/2017/09/21/hitBricks-canvas-demo/</loc>
     <lastmod>2017-09-21T09:09:24.000Z</lastmod>
     <data>
         <display>
-        <title>BS 架构概述</title>
+        <title>demo之canvas打砖块</title>
         <pubTime>2017-09-21T09:09:24.000Z</pubTime>
         
-        <tag>网络</tag>
+        <tag>动画</tag>
          
          
            
              
-              <breadCrumb title="剪切板" url="https://wangzongxu.github.io/categories/%E5%89%AA%E5%88%87%E6%9D%BF/"/>
+              <breadCrumb title="canvas" url="https://wangzongxu.github.io/categories/canvas/"/>
           
         </display>
     </data>
@@ -264,11 +264,11 @@
 
     
   <url>
-    <loc>https://wangzongxu.github.io/2017/09/21/httpStatus/</loc>
+    <loc>https://wangzongxu.github.io/2017/09/21/BS/</loc>
     <lastmod>2017-09-21T09:09:24.000Z</lastmod>
     <data>
         <display>
-        <title>http 状态码</title>
+        <title>BS 架构概述</title>
         <pubTime>2017-09-21T09:09:24.000Z</pubTime>
         
         <tag>网络</tag>
@@ -357,6 +357,26 @@
            
              
               <breadCrumb title="闲谈" url="https://wangzongxu.github.io/categories/%E9%97%B2%E8%B0%88/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://wangzongxu.github.io/2017/09/21/TaoTeChing/</loc>
+    <lastmod>2017-09-21T09:09:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>道德经</title>
+        <pubTime>2017-09-21T09:09:24.000Z</pubTime>
+        
+        <tag>电子书</tag>
+         
+         
+           
+             
+              <breadCrumb title="国学" url="https://wangzongxu.github.io/categories/%E5%9B%BD%E5%AD%A6/"/>
           
         </display>
     </data>

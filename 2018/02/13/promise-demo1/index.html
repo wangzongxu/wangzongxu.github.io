@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>wangzongxu&#39;s Blog</title>
+  <title>一个关于Promise执行顺序的小例子 | wangzongxu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="wangzongxu's Blog">
-<meta property="og:url" content="https://wangzongxu.github.io/index.html">
+  <meta name="description" content="看下边这段代码并说出结果的输出顺序：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个关于Promise执行顺序的小例子">
+<meta property="og:url" content="https://wangzongxu.github.io/2018/02/13/promise-demo1/index.html">
 <meta property="og:site_name" content="wangzongxu's Blog">
-<meta property="og:description">
+<meta property="og:description" content="看下边这段代码并说出结果的输出顺序：">
+<meta property="og:updated_time" content="2018-02-13T08:19:14.714Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="wangzongxu's Blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="一个关于Promise执行顺序的小例子">
+<meta name="twitter:description" content="看下边这段代码并说出结果的输出顺序：">
   
     <link rel="alternate" href="https://github.com/wangzongxu" title="wangzongxu&#39;s Blog" type="application/atom+xml">
   
@@ -66,9 +67,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-promise-demo1" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-promise-demo1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/02/13/promise-demo1/" class="article-date">
   <time datetime="2018-02-13T08:08:01.355Z" itemprop="datePublished">2018-02-13</time>
@@ -85,8 +84,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/13/promise-demo1/">一个关于Promise执行顺序的小例子</a>
+    <h1 class="article-title" itemprop="name">
+      一个关于Promise执行顺序的小例子
     </h1>
   
 
@@ -95,11 +94,35 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>看下边这段代码并说出结果的输出顺序：</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/02/13/promise-demo1/#more">查看全部</a>
-          </p>
-        
+<a id="more"></a>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">  resolve(<span class="number">1</span>)</span><br><span class="line">  <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">2</span>))</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">4</span>)</span><br><span class="line">&#125;).then(<span class="function"><span class="params">t</span> =&gt;</span> <span class="built_in">console</span>.log(t))</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>执行结果在下边，建议先猜测一下<blockquote>
+<p>该代码来自阮一峰的微博</p>
+</blockquote>
+</li>
+</ul>
+<p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+<ul>
+<li><p>执行结果：4，3，2，1</p>
+</li>
+<li><p>在new Promise的时候，内部代码会立即同步执行，所以先输出4；</p>
+</li>
+<li><p>此时内部的同步代码已经执行完成，开始执行外部的console.log(3)；</p>
+</li>
+<li><p>大家纠结的问题应该在1和2谁先输出，此时我们回过头来看resolve(1)和console.log(2)</p>
+</li>
+<li><p>需要注意的是由于resolve(1)是同步执行的，此时外层Promise并没有执行then方法，也就是说console.log<br>(t)此时并没有被推入任务队列；</p>
+</li>
+<li><p>resolve(1)执行完以后，执行Promise.resolve(() =&gt; console.log(2))，这句代码的then方法在任务队列里放了一个console.log(2)，再次注意是这里的then率先在任务队列中放置了任务；</p>
+</li>
+<li><p>接下来才执行到外层Promise的then，这个时候把console.log(t)放入了任务队列；</p>
+</li>
+<li><p>所以我们先看到输出了2，然后输出的1</p>
+</li>
+</ul>
+<p>（完）</p>
+
       
     </div>
     <footer class="article-footer">
@@ -111,208 +134,20 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-ZhongYong" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/02/13/ZhongYong/" class="article-date">
-  <time datetime="2018-02-13T08:07:58.620Z" itemprop="datePublished">2018-02-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/国学/">国学</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/13/ZhongYong/">中庸</a>
-    </h1>
+    <a href="/2018/02/13/ZhongYong/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">中庸</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>喜怒哀乐之未发谓之中，发之皆中节谓之和。</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/02/13/ZhongYong/#more">查看全部</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-title="中庸" data-url="https://wangzongxu.github.io/2018/02/13/ZhongYong/" data-id="cjdldnap50001unfymx7a2t3o" class="article-share-link -mob-share-open">分享</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/电子书/">电子书</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
 
-
-
-  
-    <article id="post-httpStatus" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/09/21/httpStatus/" class="article-date">
-  <time datetime="2017-09-21T09:09:24.000Z" itemprop="datePublished">2017-09-21</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/剪切板/">剪切板</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/21/httpStatus/">http 状态码</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>整理一些http状态码。<br>
-        
-          <p class="article-more-link">
-            <a href="/2017/09/21/httpStatus/#more">查看全部</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-title="http 状态码" data-url="https://wangzongxu.github.io/2017/09/21/httpStatus/" data-id="cjdldnaq2000yunfydc1l8z7x" class="article-share-link -mob-share-open">分享</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-chromeConf" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/09/21/chromeConf/" class="article-date">
-  <time datetime="2017-09-21T09:09:24.000Z" itemprop="datePublished">2017-09-21</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/chrome/">chrome</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/21/chromeConf/">Chrome配置跨域</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作为前端码农在项目开发中时常需要和后台进行接口联调，如果是前后端分离的情况下，本地开发调试后台接口的话，涉及到跨域问题比较令人头疼，很多人不知道其实chrome可以配置这一点：<br>
-        
-          <p class="article-more-link">
-            <a href="/2017/09/21/chromeConf/#more">查看全部</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-title="Chrome配置跨域" data-url="https://wangzongxu.github.io/2017/09/21/chromeConf/" data-id="cjdldnapa0005unfyyxx5dmi1" class="article-share-link -mob-share-open">分享</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/chrome/">chrome</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cache_control" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/09/21/cache_control/" class="article-date">
-  <time datetime="2017-09-21T09:09:24.000Z" itemprop="datePublished">2017-09-21</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/剪切板/">剪切板</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/21/cache_control/">关于浏览器缓存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>浏览器缓存，也就是客户端缓存，既是网页性能优化里面静态资源相关优化的一大利器，也是无数web开发人员在工作过程不可避免的一大问题，所以在产品开发的时候我们总是想办法避免缓存产生，而在产品发布之时又在想策略管理缓存提升网页的访问速度。了解浏览器的缓存命中原理，是开发web应用的基础。<br>
-        
-          <p class="article-more-link">
-            <a href="/2017/09/21/cache_control/#more">查看全部</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-title="关于浏览器缓存" data-url="https://wangzongxu.github.io/2017/09/21/cache_control/" data-id="cjdldnapb0006unfyyuzqihmf" class="article-share-link -mob-share-open">分享</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/浏览器缓存/">浏览器缓存</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-  <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
-  </nav>
 
 </section>
         
