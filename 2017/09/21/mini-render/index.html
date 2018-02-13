@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>一个轻量的模板引擎 | wangzongxu&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一个轻量的模板引擎，语法简洁，性能高效">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个轻量的模板引擎">
+<meta property="og:url" content="https://wangzongxu.github.io/2017/09/21/mini-render/index.html">
+<meta property="og:site_name" content="wangzongxu's Blog">
+<meta property="og:description" content="一个轻量的模板引擎，语法简洁，性能高效">
+<meta property="og:updated_time" content="2017-09-21T09:09:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一个轻量的模板引擎">
+<meta name="twitter:description" content="一个轻量的模板引擎，语法简洁，性能高效">
+  
+    <link rel="alternate" href="https://github.com/wangzongxu" title="wangzongxu&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">wangzongxu&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">The top class of virtue is like water,which benefits all things without any demands for return.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="https://github.com/wangzongxu" title="github"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://wangzongxu.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-mini-render" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/21/mini-render/" class="article-date">
+  <time datetime="2017-09-21T09:09:24.000Z" itemprop="datePublished">2017-09-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JS/">JS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      一个轻量的模板引擎
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一个轻量的模板引擎，语法简洁，性能高效</p>
+<a id="more"></a>
+<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install mini-render --save</span><br><span class="line">// 或者</span><br><span class="line">&lt;script src=<span class="string">'miniRender.js'</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="定义一些数据"><a href="#定义一些数据" class="headerlink" title="定义一些数据"></a>定义一些数据</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"box"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> data = &#123;</span><br><span class="line">    <span class="attr">gt</span>: <span class="number">7</span>,</span><br><span class="line">    <span class="attr">lt</span>: <span class="number">6</span>,</span><br><span class="line">    <span class="attr">first</span>: <span class="string">'first'</span>,</span><br><span class="line">    <span class="attr">array</span>: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],</span><br><span class="line">    <span class="attr">object</span>: &#123;</span><br><span class="line">         <span class="attr">key1</span>: <span class="string">'value1'</span>,</span><br><span class="line">        <span class="attr">key2</span>: <span class="string">'value2'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">word</span>: <span class="string">'aaaaa'</span>,</span><br><span class="line">    <span class="attr">empty</span>: <span class="literal">undefined</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 渲染元素模板</span></span><br><span class="line">miniRender.renderElement(<span class="string">'#box'</span>, data)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 也可以返回渲染结果</span></span><br><span class="line"><span class="keyword">var</span> str = miniRender.renderString(<span class="string">'&lt;div&gt;&#123;&#123;word&#125;&#125;&lt;/div&gt;'</span>, data)</span><br><span class="line"><span class="built_in">console</span>.log(str)</span><br></pre></td></tr></table></figure>
+<h3 id="渲染"><a href="#渲染" class="headerlink" title="渲染"></a>渲染</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; first &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--结果:</span><br><span class="line">    &lt;p&gt;first&lt;/p&gt;</span><br><span class="line">--&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>支持三元运算<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; gt &gt; 8 ? gt : 8 &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--结果:</span><br><span class="line">    &lt;p&gt;8&lt;/p&gt;</span><br><span class="line">--&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; word | toUpperCase &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--结果: </span><br><span class="line">    &lt;p&gt;AAAAA&lt;/p&gt;</span><br><span class="line">--&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span><br><span class="line"><span class="comment">// 注册过滤器</span></span><br><span class="line">miniRender.filter(<span class="string">'toUpperCase'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> val.toUpperCase()</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 移除过滤器</span></span><br><span class="line">miniRender.removeFilter(<span class="string">'toUpperCase'</span>)</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>过滤器仅可用在上边这种普通的取值中</p>
+</blockquote>
+<h3 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;IF gt &gt; lt&#125;&#125;</span><br><span class="line">    &lt;p&gt;gt比较大:&#123;&#123;gt&#125;&#125;&lt;/p&gt;</span><br><span class="line">&#123;&#123;ELSEIF lt &lt; gt&#125;&#125;</span><br><span class="line">    &lt;p&gt;lt比较小:&#123;&#123;lt&#125;&#125;&lt;/p&gt;</span><br><span class="line">&#123;&#123;ELSE&#125;&#125;</span><br><span class="line">    &lt;p&gt;都不成立&lt;/p&gt;</span><br><span class="line">&#123;&#123;/IF&#125;&#125;</span><br><span class="line"></span><br><span class="line">&lt;!--结果:</span><br><span class="line">    &lt;p&gt;gt比较大:7&lt;/p&gt;</span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--数组--&gt;</span></span><br><span class="line">&#123;&#123;EACH item, index IN array&#125;&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>索引:&#123;&#123;index&#125;&#125;  值:&#123;&#123;item&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">&#123;&#123;/EACH&#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--结果:</span><br><span class="line">    &lt;p&gt;索引:0  值:1&lt;/p&gt;</span><br><span class="line">    &lt;p&gt;索引:1  值:2&lt;/p&gt;</span><br><span class="line">    &lt;p&gt;索引:2  值:3&lt;/p&gt;</span><br><span class="line">--&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--对象--&gt;</span></span><br><span class="line">&#123;&#123;EACH val,key IN object&#125;&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>属性名:&#123;&#123;key&#125;&#125;  属性值:&#123;&#123;val&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">&#123;&#123;/EACH&#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--结果:</span><br><span class="line">    &lt;p&gt;属性名:key1  属性值:value1&lt;/p&gt;</span><br><span class="line">    &lt;p&gt;属性名:key2  属性值:value2&lt;/p&gt;</span><br><span class="line">--&gt;</span></span><br></pre></td></tr></table></figure>
+<p>（完）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-title="一个轻量的模板引擎" data-url="https://wangzongxu.github.io/2017/09/21/mini-render/" data-id="cjdlcxmev0017bxfyg8elzyek" class="article-share-link -mob-share-open">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/模板引擎/">模板引擎</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/21/manageOS/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          后台管理系统
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/21/new-retail/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">猜想新零售</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/13/ZhongYong/">中庸</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/21/hitBricks-canvas-demo/">demo之canvas打砖块</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/21/TaoTeChing/">道德经</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/21/chromeConf/">Chrome配置跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/21/cache_control/">关于浏览器缓存</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JS/" style="font-size: 20px;">JS</a> <a href="/tags/chrome/" style="font-size: 13.33px;">chrome</a> <a href="/tags/jsonp/" style="font-size: 10px;">jsonp</a> <a href="/tags/交互/" style="font-size: 10px;">交互</a> <a href="/tags/代码风格/" style="font-size: 10px;">代码风格</a> <a href="/tags/前端优化/" style="font-size: 13.33px;">前端优化</a> <a href="/tags/动画/" style="font-size: 16.67px;">动画</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/模板引擎/" style="font-size: 10px;">模板引擎</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/浏览器缓存/" style="font-size: 10px;">浏览器缓存</a> <a href="/tags/电子书/" style="font-size: 13.33px;">电子书</a> <a href="/tags/移动端/" style="font-size: 10px;">移动端</a> <a href="/tags/网络/" style="font-size: 16.67px;">网络</a> <a href="/tags/草稿/" style="font-size: 10px;">草稿</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS3/">CSS3</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/canvas/">canvas</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/chrome/">chrome</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jsonp/">jsonp</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码风格/">代码风格</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端优化/">前端优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端心得/">前端心得</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/剪切板/">剪切板</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/博客/">博客</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/国学/">国学</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具/">开发工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/闲谈/">闲谈</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 wangzongxu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+<!--MOB SHARE BEGIN-->
+<div class="-mob-share-ui -mob-share-ui-theme -mob-share-ui-theme-slide-right" style="display: none">
+    <ul class="-mob-share-list">
+        <li class="-mob-share-weibo"><p>新浪微博</p></li>
+        <li class="-mob-share-weixin"><p>微信</p></li>
+        <li class="-mob-share-qzone"><p>QQ空间</p></li>
+        <li class="-mob-share-qq"><p>QQ好友</p></li>
+    </ul>
+    <div class="-mob-share-close">取消</div>
+</div>
+<div class="-mob-share-ui-bg"></div>
+<!-- <script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=1c6dba747f8a"></script> -->
+<script id="-mob-share" src="https://wangzongxu.github.io/img-cache/blog/mob-share.js"></script>
+<link rel="stylesheet" href="https://wangzongxu.github.io/img-cache/blog/mob-share.css">
+<!--MOB SHARE END-->
+</body>
+</html>
