@@ -3,28 +3,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>console.log打印漂亮的日志 | wangzongxu&#39;s Blog</title>
+  <title>console.log打印漂亮的日志 | zongxu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="打开百度、天猫控制台，你都会发现漂亮的图案，是怎么做的呢？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="console.log打印漂亮的日志">
-<meta property="og:url" content="https://wangzongxu.github.io/2017/09/21/console/index.html">
-<meta property="og:site_name" content="wangzongxu's Blog">
+<meta property="og:url" content="https://wangzongxu.github.io/2018/03/02/console/index.html">
+<meta property="og:site_name" content="zongxu's Blog">
 <meta property="og:description" content="打开百度、天猫控制台，你都会发现漂亮的图案，是怎么做的呢？">
 <meta property="og:image" content="https://wangzongxu.github.io/img-cache/console/console1.png">
 <meta property="og:image" content="https://wangzongxu.github.io/img-cache/console/console2.png">
 <meta property="og:image" content="https://wangzongxu.github.io/img-cache/console/console3.png">
 <meta property="og:image" content="https://wangzongxu.github.io/img-cache/webchalk/webchalk.png">
-<meta property="og:image" content="https://wangzongxu.github.io/img-cache/console/console4.png">
-<meta property="og:image" content="https://wangzongxu.github.io/img-cache/console/console5.png">
-<meta property="og:image" content="https://wangzongxu.github.io/img-cache/console/console6.png">
-<meta property="og:updated_time" content="2017-09-21T09:09:24.000Z">
+<meta property="og:updated_time" content="2018-03-02T02:21:06.210Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="console.log打印漂亮的日志">
 <meta name="twitter:description" content="打开百度、天猫控制台，你都会发现漂亮的图案，是怎么做的呢？">
 <meta name="twitter:image" content="https://wangzongxu.github.io/img-cache/console/console1.png">
   
-    <link rel="alternate" href="https://github.com/wangzongxu" title="wangzongxu&#39;s Blog" type="application/atom+xml">
+    <link rel="alternate" href="https://github.com/wangzongxu" title="zongxu&#39;s Blog" type="application/atom+xml">
   
   
     <link rel="icon" type="image/x-icon" href="/favicon.png">
@@ -45,7 +42,7 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">wangzongxu&#39;s Blog</a>
+        <a href="/" id="logo">zongxu&#39;s Blog</a>
       </h1>
       
         <h2 id="subtitle-wrap">
@@ -77,8 +74,8 @@
       <div class="outer">
         <section id="main"><article id="post-console" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/09/21/console/" class="article-date">
-  <time datetime="2017-09-21T09:09:24.000Z" itemprop="datePublished">2017-09-21</time>
+    <a href="/2018/03/02/console/" class="article-date">
+  <time datetime="2018-03-02T02:21:06.210Z" itemprop="datePublished">2018-03-02</time>
 </a>
     
   <div class="article-category">
@@ -115,22 +112,27 @@
 <p><img src="https://wangzongxu.github.io/img-cache/console/console2.png" width="400" alt="" align="center"><br>此时我们发现字体变大了。</p>
 <p>如果你想让‘ABC’有更多的风格，我们只需再加上几个’%c’和对应的参数即可：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'%cA%cB%cC'</span>,<span class="string">'color:red'</span>,<span class="string">'color:blue'</span>,<span class="string">'color:green'</span>)</span><br></pre></td></tr></table></figure></p>
 <p><img src="https://wangzongxu.github.io/img-cache/console/console3.png" width="600" alt="" align="center"><br>每一个%c，只对从他后边的字符开始至下一个%c之前的位置起作用，第一个%c到第三个%c的样式，分别对应从第二个参数开始的’color:red’,’color:blue’,’color:green’，如果你想要更多的颜色，可以添加更多占位符。</p>
-<h4 id="制作图案"><a href="#制作图案" class="headerlink" title="制作图案"></a>制作图案</h4><p>这里以我平时使用图案的为例来看一下简单的制作过程：<br><img src="https://wangzongxu.github.io/img-cache/webchalk/webchalk.png" width="500" alt="" align="center"></p>
+<h4 id="制作图案"><a href="#制作图案" class="headerlink" title="制作图案"></a>制作图案</h4><p>如果只是简单几种颜色我们很容易控制，但是如果一个图案包含很多颜色，那对于console.log的参数很难把握。<br>下边我们使用一个插件<a href="https://github.com/wangzongxu/web-chalk.git" target="_blank" rel="external">web-chalk</a>来打印一个图案。<br><img src="https://wangzongxu.github.io/img-cache/webchalk/webchalk.png" width="500" alt="" align="center"></p>
 <ol>
-<li><p>首先第一步比较重要，也是不容易的，因为需要排版，把组成图案的每一个字符对应准确<br><img src="https://wangzongxu.github.io/img-cache/console/console4.png" width="500" alt="" align="center"><br>这里我先声明一个准备输出的字符串图案，使用的单个字符是一个方块，大家也可以去网上找更多好看的字符尝试，记得在换行的位置加’\n’和该行结束位置的’\’，这个我就不多说了，拼接过字符串的童鞋都知道，当然，如果你使用ES6的模板字符串就不必考虑这么多了。</p>
-</li>
-<li><p>添加占位符<br><img src="https://wangzongxu.github.io/img-cache/console/console5.png" width="500" alt="" align="center"><br>我们在每个需要更换颜色的开始位置增加了占位符，虽然看起来字符已经错位，但是并不影响正常输出。</p>
-</li>
-<li><p>注意占位符的数量和顺序，编写console的样式参数并输出：<br><img src="https://wangzongxu.github.io/img-cache/console/console6.png" width="300" alt="" align="center"></p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>其实非常简单，不过比较头疼的地方就是要选择插入占位符的位置和对准占位符和参数的位置，<br>不过推荐大家一款个人插件:web-chalk</p>
-</li>
+<li>首先第一步比较重要，也是不容易的，因为需要排版，把组成图案的每一个字符对应准确</li>
 </ol>
-<h4 id="webchalk"><a href="#webchalk" class="headerlink" title="webchalk"></a>webchalk</h4><p><a href="https://github.com/wangzongxu/web-chalk.git" target="_blank" rel="external">web-chalk</a>使用这款插件可以像html一样定义css样式，用法非常简单，不必为上述问题而头疼，链接里有用法简介。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">"\n\</span><br><span class="line">        ██          ███████         ███████\n\</span><br><span class="line">      ██  ██        ██     ██     ██\n\</span><br><span class="line">     ██ ▄▄ ██       ███████       ██\n\</span><br><span class="line">    ██      ██      ██     ██     ██\n\</span><br><span class="line">   ██        ██     ███████         ███████   A  B  C\n\</span><br><span class="line">    "</span></span><br></pre></td></tr></table></figure>
+<p>这里我先声明一个准备输出的字符串图案，使用的单个字符是一个方块，大家也可以去网上找更多好看的字符尝试，记得在换行的位置加’\n’和该行结束位置的’\’，这个我就不多说了，拼接过字符串的童鞋都知道，当然，如果你使用ES6的模板字符串就不必考虑这么多了。</p>
+<ol>
+<li>添加占位符</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str_ = <span class="string">"\n\</span><br><span class="line">        &lt;b&gt;██&lt;/b&gt;          &lt;r&gt;███████&lt;/r&gt;         &lt;g&gt;███████&lt;/g&gt;\n\</span><br><span class="line">      &lt;b&gt;██  ██&lt;/b&gt;        &lt;r&gt;██     ██&lt;/r&gt;     &lt;g&gt;██&lt;/g&gt;\n\</span><br><span class="line">     &lt;b&gt;██ ▄▄ ██&lt;/b&gt;       &lt;r&gt;███████&lt;/r&gt;       &lt;g&gt;██&lt;/g&gt;\n\</span><br><span class="line">    &lt;b&gt;██      ██&lt;/b&gt;      &lt;r&gt;██     ██&lt;/r&gt;     &lt;g&gt;██&lt;/g&gt;\n\</span><br><span class="line">   &lt;b&gt;██        ██&lt;/b&gt;     &lt;r&gt;███████&lt;/r&gt;         &lt;g&gt;███████&lt;/g&gt;  &lt;b&gt;A&lt;/b&gt; &lt;r&gt;B&lt;/r&gt; &lt;g&gt;C&lt;/g&gt;\n\</span><br><span class="line">    "</span></span><br></pre></td></tr></table></figure>
+<p>我们在每个需要更换颜色的开始位置增加了占位符，虽然看起来字符已经错位，但是并不影响正常输出。</p>
+<ol>
+<li>注意占位符的数量和顺序，编写console的样式参数并输出：</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> cssClass = &#123;</span><br><span class="line">    <span class="attr">b</span>: &#123;</span><br><span class="line">        <span class="attr">color</span>: <span class="string">'rgb(29,174,229)'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">r</span>: &#123;</span><br><span class="line">        <span class="attr">color</span>: <span class="string">'rgb(218,14,26)'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">g</span>: &#123;</span><br><span class="line">        <span class="attr">color</span>: <span class="string">'rgb(171,204,3)'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>使用这款插件可以把风格类名作为xml的标签定义样式，用法非常简单。<br>问题请到：<a href="https://github.com/wangzongxu/web-chalk/issues" target="_blank" rel="external">ISSUES</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-title="console.log打印漂亮的日志" data-url="https://wangzongxu.github.io/2017/09/21/console/" data-id="cjdldnapj000cunfyzj9352zb" class="article-share-link -mob-share-open">分享</a>
+      <a data-title="console.log打印漂亮的日志" data-url="https://wangzongxu.github.io/2018/03/02/console/" data-id="cje9cuth8000c1zfybnm5y85h" class="article-share-link -mob-share-open">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JS/">JS</a></li></ul>
@@ -141,19 +143,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/09/21/date-canvas-demo/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/03/02/nginx-alias/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          demo之canvas时钟
+          Nginx中alias和root参数区别
         
       </div>
     </a>
   
   
-    <a href="/2017/09/21/chromeUtils/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/02/13/promise-demo1/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">常用Chrome扩展工具</div>
+      <div class="article-nav-title">一个关于Promise执行顺序的小例子</div>
     </a>
   
 </nav>
@@ -173,6 +175,14 @@
       <ul>
         
           <li>
+            <a href="/2018/03/02/nginx-alias/">Nginx中alias和root参数区别</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/02/console/">console.log打印漂亮的日志</a>
+          </li>
+        
+          <li>
             <a href="/2018/02/13/promise-demo1/">一个关于Promise执行顺序的小例子</a>
           </li>
         
@@ -184,14 +194,6 @@
             <a href="/2017/09/21/httpStatus/">http 状态码</a>
           </li>
         
-          <li>
-            <a href="/2017/09/21/chromeConf/">Chrome配置跨域</a>
-          </li>
-        
-          <li>
-            <a href="/2017/09/21/cache_control/">关于浏览器缓存</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -201,7 +203,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JS/" style="font-size: 20px;">JS</a> <a href="/tags/chrome/" style="font-size: 13.33px;">chrome</a> <a href="/tags/jsonp/" style="font-size: 10px;">jsonp</a> <a href="/tags/交互/" style="font-size: 10px;">交互</a> <a href="/tags/代码风格/" style="font-size: 10px;">代码风格</a> <a href="/tags/前端优化/" style="font-size: 13.33px;">前端优化</a> <a href="/tags/动画/" style="font-size: 16.67px;">动画</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/模板引擎/" style="font-size: 10px;">模板引擎</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/浏览器缓存/" style="font-size: 10px;">浏览器缓存</a> <a href="/tags/电子书/" style="font-size: 13.33px;">电子书</a> <a href="/tags/移动端/" style="font-size: 10px;">移动端</a> <a href="/tags/网络/" style="font-size: 16.67px;">网络</a> <a href="/tags/草稿/" style="font-size: 10px;">草稿</a>
+      <a href="/tags/JS/" style="font-size: 20px;">JS</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/chrome/" style="font-size: 13.33px;">chrome</a> <a href="/tags/jsonp/" style="font-size: 10px;">jsonp</a> <a href="/tags/交互/" style="font-size: 10px;">交互</a> <a href="/tags/代码风格/" style="font-size: 10px;">代码风格</a> <a href="/tags/前端优化/" style="font-size: 13.33px;">前端优化</a> <a href="/tags/动画/" style="font-size: 16.67px;">动画</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/模板引擎/" style="font-size: 10px;">模板引擎</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/浏览器缓存/" style="font-size: 10px;">浏览器缓存</a> <a href="/tags/电子书/" style="font-size: 13.33px;">电子书</a> <a href="/tags/移动端/" style="font-size: 10px;">移动端</a> <a href="/tags/网络/" style="font-size: 16.67px;">网络</a> <a href="/tags/草稿/" style="font-size: 10px;">草稿</a>
     </div>
   </div>
 
@@ -210,7 +212,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS3/">CSS3</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/canvas/">canvas</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/chrome/">chrome</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jsonp/">jsonp</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码风格/">代码风格</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端优化/">前端优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端心得/">前端心得</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/剪切板/">剪切板</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/博客/">博客</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/国学/">国学</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具/">开发工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/闲谈/">闲谈</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS3/">CSS3</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/canvas/">canvas</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/chrome/">chrome</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jsonp/">jsonp</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码风格/">代码风格</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端优化/">前端优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端心得/">前端心得</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/剪切板/">剪切板</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/博客/">博客</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/国学/">国学</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具/">开发工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/闲谈/">闲谈</a></li></ul>
     </div>
   </div>
 

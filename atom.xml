@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>wangzongxu&#39;s Blog</title>
+  <title>zongxu&#39;s Blog</title>
   <subtitle>The top class of virtue is like water,which benefits all things without any demands for return.</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wangzongxu.github.io/"/>
-  <updated>2018-02-13T08:19:14.714Z</updated>
+  <updated>2018-03-02T03:02:22.755Z</updated>
   <id>https://wangzongxu.github.io/</id>
   
   <author>
@@ -14,6 +14,106 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Nginx中alias和root参数区别</title>
+    <link href="https://wangzongxu.github.io/2018/03/02/nginx-alias/"/>
+    <id>https://wangzongxu.github.io/2018/03/02/nginx-alias/</id>
+    <published>2018-03-02T02:21:26.435Z</published>
+    <updated>2018-03-02T03:02:22.755Z</updated>
+    
+    <content type="html"><![CDATA[<p>记录一下二者的区别</p>
+<a id="more"></a>
+<ul>
+<li>alias</li>
+</ul>
+<p>根据官网的定义是说定义一段指定路径的替代品。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /i/ &#123;</span><br><span class="line">    alias /data/w3/images/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上边会把”/i/“替换为”/data/w3/images/“，例如请求”/i/top.gif”, 响应为”/data/w3/images/top.gif”,<br>注意alias的路径一定要以为”/“结尾，否则会找不到指定文件。</p>
+<ul>
+<li>root</li>
+</ul>
+<p>root则是设置请求的根目录，末尾的”/“可有可无。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /i/ &#123;</span><br><span class="line">    root /data/w3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上边会把”/i/“追加到”/data/w3”后边，例如请求”/i/top.gif”，响应为”/data/w3/i/top.gif”。</p>
+<ul>
+<li>二者分别在什么时候使用？</li>
+</ul>
+<p>既然alias是替换location匹配的路径，所以当匹配的结果不需要的时候就使用alias：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /img/ &#123;</span><br><span class="line">    alias /data/images/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上边对于”/img/“的请求只是作为标识这个请求资源类型是图片，然而我们并不需要”/img/“这个路径，<br>这个时候使用了alias转发到”/data/images/“路径下。</p>
+<p>当location匹配的路径和alias的路径末尾相同时，就该用root</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /img/ &#123;</span><br><span class="line">    alias /data/img/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上边”/img/“和”/data/img/“尾部相同，这个时候应该改写为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /img/ &#123;</span><br><span class="line">    root /data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上边并没有像alias一样会把”/img/“替换掉，而是去”/data/img”下查找请求资源。</p>
+<p>（完）</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;记录一下二者的区别&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="网络" scheme="https://wangzongxu.github.io/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="Nginx" scheme="https://wangzongxu.github.io/tags/Nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>console.log打印漂亮的日志</title>
+    <link href="https://wangzongxu.github.io/2018/03/02/console/"/>
+    <id>https://wangzongxu.github.io/2018/03/02/console/</id>
+    <published>2018-03-02T02:21:06.210Z</published>
+    <updated>2018-03-02T02:21:06.210Z</updated>
+    
+    <content type="html"><![CDATA[<p>打开百度、天猫控制台，你都会发现漂亮的图案，是怎么做的呢？<br><a id="more"></a></p>
+<h4 id="了解console方法"><a href="#了解console方法" class="headerlink" title="了解console方法"></a>了解console方法</h4><p>我们都知道console.log可以打印多个参数：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'A'</span>,<span class="string">'B'</span>,<span class="string">'C'</span>)</span><br></pre></td></tr></table></figure></p>
+<h4 id="占位符"><a href="#占位符" class="headerlink" title="占位符"></a>占位符</h4><p>在console.log输出的字符串中可以加入以下占位符，不同格式的数据必须使用对应格式的占位符，我们只需用到’%c’，其他的就暂且不谈；</p>
+<blockquote>
+<p>%s 字符串<br>%d 整数<br>%i 整数<br>%f 浮点数<br>%o 对象的链接<br>%c CSS格式字符串</p>
+</blockquote>
+<h4 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h4><ul>
+<li>如果第一个参数是格式字符串（使用了格式占位符），console.log方法将依次用后面的参数替换占位符，然后再进行输出，使用很简单：<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'%cABC'</span>,<span class="string">'color:red'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="https://wangzongxu.github.io/img-cache/console/console1.png" width="300" alt="" align="center"><br>在控制台查看效果，我们发现ABC变成了红色：%c对应第二个参数，这个参数是css字符串，可以包含多个属性，以分号隔开：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'%cABC'</span>,<span class="string">'color:red;font-size:30px'</span>)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://wangzongxu.github.io/img-cache/console/console2.png" width="400" alt="" align="center"><br>此时我们发现字体变大了。</p>
+<p>如果你想让‘ABC’有更多的风格，我们只需再加上几个’%c’和对应的参数即可：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'%cA%cB%cC'</span>,<span class="string">'color:red'</span>,<span class="string">'color:blue'</span>,<span class="string">'color:green'</span>)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://wangzongxu.github.io/img-cache/console/console3.png" width="600" alt="" align="center"><br>每一个%c，只对从他后边的字符开始至下一个%c之前的位置起作用，第一个%c到第三个%c的样式，分别对应从第二个参数开始的’color:red’,’color:blue’,’color:green’，如果你想要更多的颜色，可以添加更多占位符。</p>
+<h4 id="制作图案"><a href="#制作图案" class="headerlink" title="制作图案"></a>制作图案</h4><p>如果只是简单几种颜色我们很容易控制，但是如果一个图案包含很多颜色，那对于console.log的参数很难把握。<br>下边我们使用一个插件<a href="https://github.com/wangzongxu/web-chalk.git" target="_blank" rel="external">web-chalk</a>来打印一个图案。<br><img src="https://wangzongxu.github.io/img-cache/webchalk/webchalk.png" width="500" alt="" align="center"></p>
+<ol>
+<li>首先第一步比较重要，也是不容易的，因为需要排版，把组成图案的每一个字符对应准确</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">"\n\</span><br><span class="line">        ██          ███████         ███████\n\</span><br><span class="line">      ██  ██        ██     ██     ██\n\</span><br><span class="line">     ██ ▄▄ ██       ███████       ██\n\</span><br><span class="line">    ██      ██      ██     ██     ██\n\</span><br><span class="line">   ██        ██     ███████         ███████   A  B  C\n\</span><br><span class="line">    "</span></span><br></pre></td></tr></table></figure>
+<p>这里我先声明一个准备输出的字符串图案，使用的单个字符是一个方块，大家也可以去网上找更多好看的字符尝试，记得在换行的位置加’\n’和该行结束位置的’\’，这个我就不多说了，拼接过字符串的童鞋都知道，当然，如果你使用ES6的模板字符串就不必考虑这么多了。</p>
+<ol>
+<li>添加占位符</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str_ = <span class="string">"\n\</span><br><span class="line">        &lt;b&gt;██&lt;/b&gt;          &lt;r&gt;███████&lt;/r&gt;         &lt;g&gt;███████&lt;/g&gt;\n\</span><br><span class="line">      &lt;b&gt;██  ██&lt;/b&gt;        &lt;r&gt;██     ██&lt;/r&gt;     &lt;g&gt;██&lt;/g&gt;\n\</span><br><span class="line">     &lt;b&gt;██ ▄▄ ██&lt;/b&gt;       &lt;r&gt;███████&lt;/r&gt;       &lt;g&gt;██&lt;/g&gt;\n\</span><br><span class="line">    &lt;b&gt;██      ██&lt;/b&gt;      &lt;r&gt;██     ██&lt;/r&gt;     &lt;g&gt;██&lt;/g&gt;\n\</span><br><span class="line">   &lt;b&gt;██        ██&lt;/b&gt;     &lt;r&gt;███████&lt;/r&gt;         &lt;g&gt;███████&lt;/g&gt;  &lt;b&gt;A&lt;/b&gt; &lt;r&gt;B&lt;/r&gt; &lt;g&gt;C&lt;/g&gt;\n\</span><br><span class="line">    "</span></span><br></pre></td></tr></table></figure>
+<p>我们在每个需要更换颜色的开始位置增加了占位符，虽然看起来字符已经错位，但是并不影响正常输出。</p>
+<ol>
+<li>注意占位符的数量和顺序，编写console的样式参数并输出：</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> cssClass = &#123;</span><br><span class="line">    <span class="attr">b</span>: &#123;</span><br><span class="line">        <span class="attr">color</span>: <span class="string">'rgb(29,174,229)'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">r</span>: &#123;</span><br><span class="line">        <span class="attr">color</span>: <span class="string">'rgb(218,14,26)'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">g</span>: &#123;</span><br><span class="line">        <span class="attr">color</span>: <span class="string">'rgb(171,204,3)'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>使用这款插件可以把风格类名作为xml的标签定义样式，用法非常简单。<br>问题请到：<a href="https://github.com/wangzongxu/web-chalk/issues" target="_blank" rel="external">ISSUES</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;打开百度、天猫控制台，你都会发现漂亮的图案，是怎么做的呢？&lt;br&gt;
+    
+    </summary>
+    
+      <category term="JS" scheme="https://wangzongxu.github.io/categories/JS/"/>
+    
+    
+      <category term="JS" scheme="https://wangzongxu.github.io/tags/JS/"/>
+    
+  </entry>
   
   <entry>
     <title>一个关于Promise执行顺序的小例子</title>
@@ -712,185 +812,78 @@
   </entry>
   
   <entry>
-    <title>关于浏览器缓存</title>
-    <link href="https://wangzongxu.github.io/2017/09/21/cache_control/"/>
-    <id>https://wangzongxu.github.io/2017/09/21/cache_control/</id>
+    <title>BS 架构概述</title>
+    <link href="https://wangzongxu.github.io/2017/09/21/BS/"/>
+    <id>https://wangzongxu.github.io/2017/09/21/BS/</id>
     <published>2017-09-21T09:09:24.000Z</published>
     <updated>2017-09-21T09:09:24.000Z</updated>
     
-    <content type="html"><![CDATA[<p>浏览器缓存，也就是客户端缓存，既是网页性能优化里面静态资源相关优化的一大利器，也是无数web开发人员在工作过程不可避免的一大问题，所以在产品开发的时候我们总是想办法避免缓存产生，而在产品发布之时又在想策略管理缓存提升网页的访问速度。了解浏览器的缓存命中原理，是开发web应用的基础。<br><a id="more"></a></p>
-<h3 id="浏览器缓存基本介绍"><a href="#浏览器缓存基本介绍" class="headerlink" title="浏览器缓存基本介绍"></a>浏览器缓存基本介绍</h3><blockquote>
-<p>它分为强缓存和协商缓存：</p>
-</blockquote>
+    <content type="html"><![CDATA[<p>B/S结构即浏览器和服务器结构。<br><a id="more"></a><br></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>它是随着互联网s技术的兴起，对C/S结构的一种变化或者改进的结构。<br>在这种结构下，用户工作界面是通过WWW浏览器来实现，极少部分事务逻辑在前端(Browser)实现，但是主要事务逻辑在服务器端(Server)实现，形成所谓三层3-tier结构。<br>B/S结构是WEB兴起后的一种网络结构模式，WEB浏览器是客户端最主要的应用软件。这种模式统一了客户端，将系统功能实现的核心部分集中到服务器上，简化了系统的开发、维护和使用。<br>客户机上只要安装一个浏览器（Browser），服务器安装Oracle、Sybase、Informix或 SQL Server等数据库。浏览器通过Web Server同数据库进行数据交互。 这样就大大简化了客户端电脑载荷，减轻了系统维护与升级的成本和工作量，降低了用户的总体成本(TCO)。</p>
+<h2 id="维护和升级"><a href="#维护和升级" class="headerlink" title="维护和升级"></a>维护和升级</h2><p>软件系统的改进和升级越来越频繁，B/S架构的产品明显体现着更为方便的特性。<br>对一个稍微大一点单位来说，系统管理人员如果需要在几百甚至上千部电脑之间来回奔跑，效率和工作量是可想而知的，但B/S架构的软件只需要管理服务器就行了，所有的客户端只是浏览器，根本不需要做任何的维护。<br>无论用户的规模有多大，有多少分支机构都不会增加任何维护升级的工作量，所有的操作只需要针对服务器进行；如果是异地，只需要把服务器连接专网即可，实现远程维护、升级和共享。所以客户机越来越“瘦”，而服务器越来越“胖”是将来信息化发展的主流方向。<br>今后，软件升级和维护会越来越容易，而使用起来会越来越简单，这对用户人力、物力、时间、费用的节省是显而易见的，惊人的。因此，维护和升级革命的方式是“瘦”客户机，“胖”服务器。</p>
+<h2 id="成本与选择"><a href="#成本与选择" class="headerlink" title="成本与选择"></a>成本与选择</h2><p>大家都知道windows在桌面电脑上几乎一统天下，浏览器成为了标准配置。<br>但在服务器操作系统上，windows并不是处于绝对的统治地位。<br>软件的趋势是凡使用B/S架构的应用管理软件，只需安装在Linux服务器上即可，而且安全性高。<br>所以服务器操作系统的选择是很多的，不管选用那种操作系统都可以让大部分人使用windows作为桌面操作系统电脑不受影响，这就使得最流行免费的Linux操作系统快速发展起来，Linux除了操作系统是免费的以外，连数据库也是免费的，这种选择非常盛行。</p>
+<h2 id="负荷重"><a href="#负荷重" class="headerlink" title="负荷重"></a>负荷重</h2><p>由于B/S架构管理软件只安装在服务器端（Server）上，网络管理人员只需要管理服务器就行了，用户界面主要事务逻辑在服务器（Server）端完全通过WWW浏览器实现，极少部分事务逻辑在前端（Browser）实现，所有的客户端只有浏览器，网络管理人员只需要做硬件维护。<br>但是，应用服务器运行数据负荷较重，一旦发生服务器“崩溃”等问题，后果不堪设想。因此，许多单位都备有数据库存储服务器，以防万一。</p>
+<h2 id="C-S特点"><a href="#C-S特点" class="headerlink" title="C/S特点"></a>C/S特点</h2><p>C/S又称Client/Server或客户/服务器模式。<br>服务器通常采用高性能的PC、工作站或小型机，并采用大型数据库系统，如Oracle、Sybase、Informix或 SQL Server。客户端需要安装专用的客户端软件。<br>C/S的优点是能充分发挥客户端PC的处理能力，很多工作可以在客户端处理后再提交给服务器。对应的优点就是客户端响应速度快。缺点主要有以下几个：  </p>
+<p>而随着互联网的飞速发展，移动办公和分布式办公越来越普及，这需要我们的系统具有扩展性。这种方式远程访问需要专门的技术，同时要对系统进行专门的设计来处理分布式的数据。  </p>
+<p>客户端需要安装专用的客户端软件。首先涉及到安装的工作量，其次任何一台电脑出问题，如病毒、硬件损坏，都需要进行安装或维护。特别是有很多分部或专卖店的情况，不是工作量的问题，而是路程的问题。还有，系统软件升级时，每一台客户机需要重新安装，其维护和升级成本非常高。  </p>
+<p>对客户端的操作系统一般也会有限制。可能适应于Win98，但不能用于win2000或Windows XP。或者不适用于微软新的操作系统等等，更不用说Linux、Unix等。  </p>
+<p>Client/Server是建立在局域网的基础上的。Browser/Server是建立在广域网的基础上的。  </p>
 <ol>
-<li><p>浏览器在加载资源时，先根据这个资源的一些http header判断它是否命中强缓存，强缓存如果命中，浏览器直接从自己的缓存中读取资源，不会发请求到服务器。比如某个css文件，如果浏览器在加载它所在的网页时，这个css文件的缓存配置命中了强缓存，浏览器就直接从缓存中加载这个css，连请求都不会发送到网页所在服务器；</p>
+<li><p>硬件环境不同：C/S 一般建立在专用的网络上，小范围里的网络环境，局域网之间再通过专门服务器提供连接和数据交换服务。B/S 建立在广域网之上的， 不必是专门的网络硬件环境。例如电话上网,，租用设备.，信息管理，有比C/S更强的适应范围，一般只要有操作系统和浏览器就行。</p>
 </li>
-<li><p>当强缓存没有命中的时候，浏览器一定会发送一个请求到服务器，通过服务器端依据资源的另外一些http header验证这个资源是否命中协商缓存，如果协商缓存命中，服务器会将这个请求返回，但是不会返回这个资源的数据，而是告诉客户端可以直接从缓存中加载这个资源，于是浏览器就又会从自己的缓存中去加载这个资源；</p>
+<li><p>对安全要求不同：C/S 一般面向相对固定的用户群， 对信息安全的控制能力很强， 一般高度机密的信息系统采用C/S 结构适宜，可以通过B/S发布部分可公开信息。B/S 建立在广域网之上, 对安全的控制能力相对弱，面向是不可知的用户群。</p>
 </li>
-<li><p>强缓存与协商缓存的共同点是：如果命中，都是从客户端缓存中加载资源，而不是从服务器加载资源数据；区别是：强缓存不发请求到服务器，协商缓存会发请求到服务器。</p>
+<li><p>对程序架构不同：C/S 程序可以更加注重流程,，可以对权限多层次校验,，对系统运行速度可以较少考虑。B/S 对安全以及访问速度的多重的考虑,，建立在需要更加优化的基础之上，比C/S有更高的要求。 B/S结构的程序架构是发展的趋势，从MS的.Net系列的BizTalk 2000 Exchange 2000等，全面支持网络的构件搭建的系统.。SUN 和IBM推的JavaBean 构件技术等，使 B/S更加成熟。</p>
 </li>
-<li><p>当协商缓存也没有命中的时候，浏览器直接从服务器加载资源数据。</p>
+<li><p>软件重用不同：C/S 程序可以不可避免的整体性考虑，构件的重用性不如在B/S要求下的构件的重用性好。B/S 对的多重结构,要求构件相对独立的功能，能够相对较好的重用。</p>
+</li>
+<li><p>系统维护不同：系统维护在是软件生存周期中，开销大。重要C/S 程序由于整体性,，必须整体考察， 处理出现的问题以及系统升级。升级难，可能是再做一个全新的系统。B/S程序由构件组成，方便构件个别的更换，实现系统的无缝升级，系统维护开销减到最小，用户从网上自己下载安装就可以实现升级。</p>
+</li>
+<li><p>处理问题不同：C/S 程序可以处理用户面固定，并且在相同区域,，安全要求高需求，与操作系统相关，应该都是相同的系统。B/S 建立在广域网上，面向不同的用户群，分散地域，这是C/S无法作到的，与操作系统平台关系最小。</p>
+</li>
+<li><p>用户接口不同：C/S 多是建立的Window平台上，表现方法有限。对程序员普遍要求较高。B/S 建立在浏览器上,，有更加丰富和生动的表现方式与用户交流，并且大部分难度减低，减低开发成本。</p>
+</li>
+<li><p>信息流不同：C/S 程序一般是典型的中央集权的机械式处理，交互性相对低。B/S 信息流向可变化， B-B、 B-C、 B-G等信息流向的变化，更象交易中心。</p>
 </li>
 </ol>
-<h3 id="强缓存原理"><a href="#强缓存原理" class="headerlink" title="强缓存原理"></a>强缓存原理</h3><ul>
-<li><p>浏览器对某个资源的请求命中了强缓存时，返回的http状态为200，在chrome的开发者工具的network里面size会显示为from disk cache，比如天猫的首页里就有很多静态资源配置了强缓存，用network可以看到有不少请求就是从缓存中加载的：<br><img src="https://wangzongxu.github.io/img-cache/blog/强缓存原理配图1.png" alt="强缓存原理配图"></p>
-</li>
-<li><p>强缓存是利用Expires或者Cache-Control这两个http response header实现的，它们都用来表示资源在客户端缓存的有效期。</p>
-</li>
-<li><p>Expires是http1.0提出的一个表示资源过期时间的header，它描述的是一个绝对时间，由服务器返回，用GMT格式的字符串表示，如：Expires:Thu, 31 Dec 2037 23:55:55 GMT，它的缓存原理是：]</p>
+<h5 id="技术比较"><a href="#技术比较" class="headerlink" title="技术比较"></a>技术比较</h5><p>C/S结构软件（即客户机/服务器模式）分为客户机和服务器两层，客户机不是毫无运算能力的输入、输出设备，而是具有了一定的数据处理和数据存储能力，通过把应用软件的计算和数据合理地分配在客户机和服务器两端，可以有效地降低网络通信量和服务器运算量。由于服务器连接个数和数据通信量的限制，这种结构的软件适于在用户数目不多的局域网内使用。国内现阶段的大部分ERP（财务）软件产品即属于此类结构。  </p>
+<p>B/S(浏览器/服务器模式)是随着Internet技术的兴起，对C/S结构的一种改进。在这种结构下，软件应用的业务逻辑完全在应用服务器端实现，用户表现完全在Web服务器实现，客户端只需要浏览器即可进行业务处理，是一种全新的软件系统构造技术。这种结构更成为当今应用软件的首选体系结构。e通管理系列产品即属于此类结构。  </p>
 <ol>
-<li><p>1）浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在respone的header加上Expires的header，如：<br><img src="https://wangzongxu.github.io/img-cache/blog/expires.png" alt="Expires"></p>
+<li><p>数据安全性比较。由于C/S结构软件的数据分布特性，客户端所发生的火灾、盗抢、地震、病毒、黑客等都成了可怕的数据杀手。另外，对于集团级的异地软件应用，C/S结构的软件必须在各地安装多个服务器，并在多个服务器之间进行数据同步。如此一来，每个数据点上的数据安全都影响了整个应用的数据安全。所以，对于集团级的大型应用来讲，C/S结构软件的安全性是令人无法接受的。对于B/S结构的软件来讲，由于其数据集中存放于总部的数据库服务器，客户端不保存任何业务数据和数据库连接信息，也无需进行什么数据同步，所以这些安全问题也就自然不存在了。</p>
 </li>
-<li><p>浏览器在接收到这个资源后，会把这个资源连同所有response header一起缓存下来（所以缓存命中的请求返回的header并不是来自服务器，而是来自之前缓存的header）；</p>
+<li><p>数据一致性比较。在C/S结构软件的解决方案里，对于异地经营的大型集团都采用各地安装区域级服务器，然后再进行数据同步的模式。这些服务器每天必须同步完毕之后，总部才可得到最终的数据。由于局部网络故障造成个别数据库不能同步不说，即使同步上来，各服务器也不是一个时点上的数据，数据永远无法一致，不能用于决策。对于B/S结构的软件来讲，其数据是集中存放的，客户端发生的每一笔业务单据都直接进入到中央数据库，不存在数据一致性的问题。</p>
 </li>
-<li><p>浏览器再请求这个资源时，先从缓存中寻找，找到这个资源后，拿出它的Expires跟当前的请求时间比较，如果请求时间在Expires指定的时间之前，就能命中缓存，否则就不行。</p>
+<li><p>数据实时性比较。在集团级应用里，C/S结构不可能随时随地看到当前业务的发生情况，看到的都是事后数据；而B/S结构则不同，它可以实时看到当前发生的所有业务，方便了快速决策，有效地避免了企业损失。</p>
 </li>
-<li><p>如果缓存没有命中，浏览器直接从服务器加载资源时，Expires Header在重新加载的时候会被更新。</p>
+<li><p>数据溯源性比较。由于B/S结构的数据是集中存放的，所以总公司可以直接追溯到各级分支机构（分公司、门店）的原始业务单据，也就是说看到的结果可溯源。大部分C/S结构的软件则不同，为了减少数据通信量，仅仅上传中间报表数据，在总部不可能查到各分支机构（分公司、门店）的原始单据。</p>
+</li>
+<li><p>服务响应及时性比较。企业的业务流程、业务模式不是一成不变的，随着企业不断发展，必然会不断调整。软件供应商提供的软件也不是完美无缺的，所以，对已经部署的软件产品进行维护、升级是正常的。C/S结构软件，由于其应用是分布的，需要对每一个使用节点进行程序安装，所以，即使非常小的程序缺陷都需要很长的重新部署时间，重新部署时，为了保证各程序版本的一致性，必须暂停一切业务进行更新（即“休克更新”），其服务响应时间基本不可忍受。而B/S结构的软件不同，其应用都集中于总部服务器上，各应用结点并没有任何程序，一个地方更新则全部应用程序更新，可以做到快速服务响应。</p>
+</li>
+<li><p>网络应用限制比较。C/S结构软件仅适用于局域网内部用户或宽带用户（1兆以上）；而我们的B/S结构软件可以适用于任何网络结构（包括33.6K拨号入网方式），特别适于宽带不能到达的地方（例如迪信通集团的某些分公司，仅靠电话上网即可正常使用软件系统）。</p>
+</li>
+<li><p>存储模式比较。B/S结构相应数据完全来自于后台数据库，而C/S结构部分数据来源于存储在本地的临时文件，剩余的部分来源于数据库，因此C/S结构响应时间会更快。</p>
 </li>
 </ol>
+<h5 id="商业比较"><a href="#商业比较" class="headerlink" title="商业比较"></a>商业比较</h5><ol>
+<li><p>投入成本比较。B/S结构软件一般只有初期一次性投入成本。对于集团来讲，有利于软件项目控制和避免IT黑洞，而C/S结构的软件则不同，随着应用范围的扩大，投资会连绵不绝。</p>
 </li>
-<li><p>Expires是较老的强缓存管理header，由于它是服务器返回的一个绝对时间，在服务器时间与客户端时间相差较大时，缓存管理容易出现问题，比如随意修改下客户端时间，就能影响缓存命中的结果。所以在http1.1的时候，提出了一个新的header，就是Cache-Control，这是一个相对时间，在配置缓存的时候，以秒为单位，用数值表示，如：Cache-Control:max-age=315360000，它的缓存原理是：</p>
-<ol>
-<li>浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在respone的header加上Cache-Control的header，如<br><img src="https://wangzongxu.github.io/img-cache/blog/cache-control.png" alt="Cache-Control"></li>
-<li><p>浏览器在接收到这个资源后，会把这个资源连同所有response header一起缓存下来；</p>
-</li>
-<li><p>浏览器再请求这个资源时，先从缓存中寻找，找到这个资源后，根据它第一次的请求时间和Cache-Control设定的有效期，计算出一个资源过期时间，再拿这个过期时间跟当前的请求时间比较，如果请求时间在过期时间之前，就能命中缓存，否则就不行。</p>
-</li>
-<li><p>如果缓存没有命中，浏览器直接从服务器加载资源时，Cache-Control Header在重新加载的时候会被更新。</p>
+<li><p>硬件投资保护比较。在对已有硬件投资的保护方面，两种结构也是完全不同的。当应用范围扩大，系统负载上升时，C/S结构软件的一般解决方案是购买更高性能的服务器；而B/S架构则是通过增加服务器的数量来承担更大的负载。</p>
 </li>
 </ol>
-</li>
-<li><p>Cache-Control描述的是一个相对时间，在进行缓存命中的时候，都是利用客户端时间进行判断，所以相比较Expires，Cache-Control的缓存管理更有效，安全一些。</p>
-</li>
-<li><p>这两个header可以只启用一个，也可以同时启用，当response header中，Expires和Cache-Control同时存在时，Cache-Control优先级高于Expires。<br><img src="https://wangzongxu.github.io/img-cache/blog/expires-and-control.png" alt="expires-and-control"></p>
-</li>
-</ul>
-<h3 id="强缓存的管理"><a href="#强缓存的管理" class="headerlink" title="强缓存的管理"></a>强缓存的管理</h3><ul>
-<li><p>前面介绍的是强缓存的原理，在实际应用中我们会碰到需要强缓存的场景和不需要强缓存的场景，通常有2种方式来设置是否启用强缓存：</p>
-<ol>
-<li><p>通过代码的方式，在web服务器返回的响应中添加Expires和Cache-Control Header；</p>
-</li>
-<li><p>通过配置web服务器的方式，让web服务器在响应资源的时候统一添加Expires和Cache-Control Header。</p>
-</li>
-</ol>
-</li>
-<li><p>比如在javaweb里面，我们可以使用类似下面的代码设置强缓存：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java.util.Date date = <span class="keyword">new</span> java.util.Date();    </span><br><span class="line">response.setDateHeader(<span class="string">"Expires"</span>,date.getTime()+<span class="number">20000</span>); <span class="comment">//Expires:过时期限值</span></span><br><span class="line">response.setHeader(<span class="string">"Cache-Control"</span>, <span class="string">"public"</span>); <span class="comment">//Cache-Control来控制页面的缓存与否,public:浏览器和缓存服务器都可以缓存页面信息；</span></span><br><span class="line">response.setHeader(<span class="string">"Pragma"</span>, <span class="string">"Pragma"</span>); <span class="comment">//Pragma:设置页面是否缓存，为Pragma则缓存，no-cache则不缓存</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>可以通过类似下面的java代码设置不启用强缓存：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader( <span class="string">"Pragma"</span>, <span class="string">"no-cache"</span> );   </span><br><span class="line">response.setDateHeader(<span class="string">"Expires"</span>, <span class="number">0</span>);   </span><br><span class="line">response.addHeader( <span class="string">"Cache-Control"</span>, <span class="string">"no-cache"</span> );<span class="comment">//浏览器和缓存服务器都不应该缓存页面信息</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<blockquote>
-<p>tomcat还提供了一个ExpiresFilter专门用来配置强缓存，具体使用的方式可参考tomcat的官方文档：<a href="http://tomcat.apache.org/tomcat-7.0-doc/config/filter.html#Expires_Filter" target="_blank" rel="external">http://tomcat.apache.org/tomcat-7.0-doc/config/filter.html#Expires_Filter</a></p>
-</blockquote>
-<ul>
-<li><p>nginx和apache作为专业的web服务器，都有专门的配置文件，可以配置expires和cache-control，这方面的知识，如果你对运维感兴趣的话，可以在百度上搜索“nginx 设置 expires cache-control”或“apache 设置 expires cache-control”都能找到不少相关的文章。</p>
-</li>
-<li><p>由于在开发的时候不会专门去配置强缓存，而浏览器又默认会缓存图片，css和js等静态资源，所以开发环境下经常会因为强缓存导致资源没有及时更新而看不到最新的效果，解决这个问题的方法有很多，常用的有以下几种：</p>
-<ol>
-<li><p>直接ctrl+f5，这个办法能解决页面直接引用的资源更新的问题；</p>
-</li>
-<li><p>使用浏览器的隐私模式开发；</p>
-</li>
-<li><p>如果用的是chrome，可以f12在network那里把缓存给禁掉（这是个非常有效的方法）：<br><img src="https://wangzongxu.github.io/img-cache/blog/disabled-cache.png" alt="disabled-cache"></p>
-</li>
-<li><p>在开发阶段，给资源加上一个动态的参数，如css/index.css?v=0.0001，由于每次资源的修改都要更新引用的位置，同时修改参数的值，所以操作起来不是很方便，除非你是在动态页面比如jsp里开发就可以用服务器变量来解决（v=${sysRnd}），或者你能用一些前端的构建工具来处理这个参数修改的问题；</p>
-</li>
-<li><p>如果资源引用的页面，被嵌入到了一个iframe里面，可以在iframe的区域右键单击重新加载该页面，以chrome为例：<br><img src="https://wangzongxu.github.io/img-cache/blog/重新加载框架.png" alt="重新加载框架"></p>
-</li>
-<li><p>如果缓存问题出现在ajax请求中，最有效的解决办法就是ajax的请求地址追加随机数；</p>
-</li>
-<li><p>还有一种情况就是动态设置iframe的src时，有可能也会因为缓存问题，导致看不到最新的效果，这时候在要设置的src后面添加随机数也能解决问题；</p>
-</li>
-<li><p>如果你用的是grunt和gulp这种前端工具开发，通过它们的插件比如grunt-contrib-connect来启动一个静态服务器，则完全不用担心开发阶段的资源更新问题，因为在这个静态服务器下的所有资源返回的respone header中，cache-control始终被设置为不缓存：<br><img src="https://wangzongxu.github.io/img-cache/blog/disabled-cache-control.png" alt="disabled-cache-control"></p>
-</li>
-</ol>
-</li>
-</ul>
-<h3 id="强缓存的应用"><a href="#强缓存的应用" class="headerlink" title="强缓存的应用"></a>强缓存的应用</h3><ul>
-<li><p>强缓存是前端性能优化最有力的工具，没有之一，对于有大量静态资源的网页，一定要利用强缓存，提高响应速度。通常的做法是，为这些静态资源全部配置一个超时时间超长的Expires或Cache-Control，这样用户在访问网页时，只会在第一次加载时从服务器请求静态资源，其它时候只要缓存没有失效并且用户没有强制刷新的条件下都会从自己的缓存中加载，比如前面提到过的京东首页缓存的资源，它的缓存过期时间都设置到了2026年：<br><img src="https://wangzongxu.github.io/img-cache/blog/cache-2026.png" alt="cache-2026"></p>
-</li>
-<li><p>然而这种缓存配置方式会带来一个新的问题，就是发布时资源更新的问题，比如某一张图片，在用户访问第一个版本的时候已经缓存到了用户的电脑上，当网站发布新版本，替换了这个图片时，已经访问过第一个版本的用户由于缓存的设置，导致在默认的情况下不会请求服务器最新的图片资源，除非他清掉或禁用缓存或者强制刷新，否则就看不到最新的图片效果。</p>
-</li>
-<li><p>这个问题已经有成熟的解决方案，具体内容可阅读知乎这篇文章详细了解：<a href="http://www.zhihu.com/question/20790576" target="_blank" rel="external">http://www.zhihu.com/question/20790576</a></p>
-</li>
-<li><p>文章提到的东西都属于理论上的解决方案，不过现在已经有很多前端工具能够实际地解决这个问题，由于每个工具涉及到的内容细节都有很多，本文没有办法一一深入介绍。有兴趣的可以去了解下grunt gulp webpack fis 还有edp这几个工具，基于这几个工具都能解决这个问题，尤其是fis和edp是百度推出的前端开发平台，有现成的文档可以参考：</p>
-</li>
-</ul>
-<p><a href="http://fis.baidu.com/fis3/api/index.html" target="_blank" rel="external">http://fis.baidu.com/fis3/api/index.html</a>   </p>
-<p><a href="http://ecomfe.github.io/edp/doc/initialization/install/" target="_blank" rel="external">http://ecomfe.github.io/edp/doc/initialization/install/</a></p>
-<ul>
-<li>强缓存还有一点需要注意的是，通常都是针对静态资源使用，动态资源需要慎用，除了服务端页面可以看作动态资源外，那些引用静态资源的html也可以看作是动态资源，如果这种html也被缓存，当这些html更新之后，可能就没有机制能够通知浏览器这些html有更新，尤其是前后端分离的应用里，页面都是纯html页面，每个访问地址可能都是直接访问html页面，这些页面通常不加强缓存，以保证浏览器访问这些页面时始终请求服务器最新的资源。</li>
-</ul>
-<h3 id="协商缓存的原理"><a href="#协商缓存的原理" class="headerlink" title="协商缓存的原理"></a>协商缓存的原理</h3><ul>
-<li><p>当浏览器对某个资源的请求没有命中强缓存，就会发一个请求到服务器，验证协商缓存是否命中，如果协商缓存命中，请求响应返回的http状态为304并且会显示一个Not Modified的字符串，比如你打开京东的首页，按f12打开开发者工具，再按f5刷新页面，查看network，可以看到有不少请求就是命中了协商缓存的<br><img src="https://wangzongxu.github.io/img-cache/blog/304.png" alt="304"></p>
-</li>
-<li><p>查看单个请求的Response Header，也能看到304的状态码和Not Modified的字符串，只要看到这个就可说明这个资源是命中了协商缓存，然后从客户端缓存中加载的，而不是服务器最新的资源：<br><img src="https://wangzongxu.github.io/img-cache/blog/304-detail.png" alt="304-detail"></p>
-</li>
-<li><p>协商缓存是利用的是【Last-Modified，If-Modified-Since】和【ETag、If-None-Match】这两对Header来管理的。</p>
-</li>
-<li><p>【Last-Modified，If-Modified-Since】的控制缓存的原理是：</p>
-<ol>
-<li>浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在respone的header加上Last-Modified的header，这个header表示这个资源在服务器上的最后修改时间：<br><img src="https://wangzongxu.github.io/img-cache/blog/Last-Modified.png" alt="Last-Modified"></li>
-<li>浏览器再次跟服务器请求这个资源时，在request的header上加上If-Modified-Since的header，这个header的值就是上一次请求时返回的Last-Modified的值：<br><img src="https://wangzongxu.github.io/img-cache/blog/If-Modified-Since.png" alt="If-Modified-Since"></li>
-<li>服务器再次收到资源请求时，根据浏览器传过来If-Modified-Since和资源在服务器上的最后修改时间判断资源是否有变化，如果没有变化则返回304 Not Modified，但是不会返回资源内容；如果有变化，就正常返回资源内容。当服务器返回304 Not Modified的响应时，response header中不会再添加Last-Modified的header，因为既然资源没有变化，那么Last-Modified也就不会改变，这是服务器返回304时的response header：<br><img src="https://wangzongxu.github.io/img-cache/blog/304res.png" alt="304res"></li>
-<li><p>浏览器收到304的响应后，就会从缓存中加载资源。</p>
-</li>
-<li><p>如果协商缓存没有命中，浏览器直接从服务器加载资源时，Last-Modified Header在重新加载的时候会被更新，下次请求时，If-Modified-Since会启用上次返回的Last-Modified值。</p>
-</li>
-</ol>
-</li>
-<li><p>【Last-Modified，If-Modified-Since】都是根据服务器时间返回的header，一般来说，在没有调整服务器时间和篡改客户端缓存的情况下，这两个header配合起来管理协商缓存是非常可靠的，但是有时候也会服务器上资源其实有变化，但是最后修改时间却没有变化的情况，而这种问题又很不容易被定位出来，而当这种情况出现的时候，就会影响协商缓存的可靠性。所以就有了另外一对header来管理协商缓存，这对header就是【ETag、If-None-Match】。它们的缓存管理的方式是：</p>
-<ol>
-<li>浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在respone的header加上ETag的header，这个header是服务器根据当前请求的资源生成的一个唯一标识，这个唯一标识是一个字符串，只要资源有变化这个串就不同，跟最后修改时间没有关系，所以能很好的补充Last-Modified的问题：<br><img src="https://wangzongxu.github.io/img-cache/blog/ETag.png" alt="ETag"></li>
-<li>浏览器再次跟服务器请求这个资源时，在request的header上加上If-None-Match的header，这个header的值就是上一次请求时返回的ETag的值：<br><img src="https://wangzongxu.github.io/img-cache/blog/if-none-match.png" alt="if-none-match"></li>
-<li>服务器再次收到资源请求时，根据浏览器传过来If-None-Match和然后再根据资源生成一个新的ETag，如果这两个值相同就说明资源没有变化，否则就是有变化；如果没有变化则返回304 Not Modified，但是不会返回资源内容；如果有变化，就正常返回资源内容。与Last-Modified不一样的是，当服务器返回304 Not Modified的响应时，由于ETag重新生成过，response header中还会把这个ETag返回，即使这个ETag跟之前的没有变化：<br><img src="https://wangzongxu.github.io/img-cache/blog/ETag.png" alt="ETag"></li>
-<li>浏览器收到304的响应后，就会从缓存中加载资源。</li>
-</ol>
-</li>
-</ul>
-<h3 id="协商缓存的管理"><a href="#协商缓存的管理" class="headerlink" title="协商缓存的管理"></a>协商缓存的管理</h3><ul>
-<li><p>协商缓存跟强缓存不一样，强缓存不发请求到服务器，所以有时候资源更新了浏览器还不知道，但是协商缓存会发请求到服务器，所以资源是否更新，服务器肯定知道。大部分web服务器都默认开启协商缓存，而且是同时启用【Last-Modified，If-Modified-Since】和【ETag、If-None-Match】，比如apache:<br><img src="https://wangzongxu.github.io/img-cache/blog/etagandlast.png" alt="etagandlast"></p>
-</li>
-<li><p>如果没有协商缓存，每个到服务器的请求，就都得返回资源内容，这样服务器的性能会极差。</p>
-</li>
-<li><p>【Last-Modified，If-Modified-Since】和【ETag、If-None-Match】一般都是同时启用，这是为了处理Last-Modified不可靠的情况。有一种场景需要注意：</p>
-</li>
-<li><p>分布式系统里多台机器间文件的Last-Modified必须保持一致，以免负载均衡到不同机器导致比对失败；</p>
-</li>
-<li><p>分布式系统尽量关闭掉ETag(每台机器生成的ETag都会不一样）；</p>
-</li>
-<li><p>京东页面的资源请求，返回的repsones header就只有Last-Modified，没有ETag：<br><img src="https://wangzongxu.github.io/img-cache/blog/only-lastmodify.png" alt="only-lastmodify"></p>
-</li>
-<li><p>协商缓存需要配合强缓存使用，你看前面这个截图中，除了Last-Modified这个header，还有强缓存的相关header，因为如果不启用强缓存的话，协商缓存根本没有意义。</p>
-</li>
-</ul>
-<h3 id="浏览器行为对缓存的影响"><a href="#浏览器行为对缓存的影响" class="headerlink" title="浏览器行为对缓存的影响"></a>浏览器行为对缓存的影响</h3><ul>
-<li><p>如果资源已经被浏览器缓存下来，在缓存失效之前，再次请求时，默认会先检查是否命中强缓存，如果强缓存命中则直接读取缓存，如果强缓存没有命中则发请求到服务器检查是否命中协商缓存，如果协商缓存命中，则告诉浏览器还是可以从缓存读取，否则才从服务器返回最新的资源。这是默认的处理方式，这个方式可能被浏览器的行为改变：</p>
-<ol>
-<li><p>当ctrl+f5强制刷新网页时，直接从服务器加载，跳过强缓存和协商缓存；</p>
-</li>
-<li><p>当f5刷新网页时，跳过强缓存，但是会检查协商缓存；</p>
-</li>
-</ol>
-</li>
-<li><p>参考出处：<a href="http://www.cnblogs.com/lyzg/p/5125934.html" target="_blank" rel="external">http://www.cnblogs.com/lyzg/p/5125934.html</a></p>
-</li>
-</ul>
-<h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><p><img src="https://wangzongxu.github.io/img-cache/blog/browser-cache.jpeg" alt="流程图"></p>
+<h2 id="融合"><a href="#融合" class="headerlink" title="融合"></a>融合</h2><p>未来发展趋势，是将B/S与C/S的优势完美地结合起来，就是说，该平台的应用系统既能以B/S的方式发布运行，同时又具有C/S方式的极强的可操作性。</p>
+<h2 id="发展前景"><a href="#发展前景" class="headerlink" title="发展前景"></a>发展前景</h2><p>C/S和B/S各有优势，C/S在图形的表现能力上以及运行的速度上肯定是强于B/S模式的，不过缺点就是他需要运行专门的客户端，而且更重要的是它不能跨平台，用c++在windows下写的程序肯定是不能在linux下跑的。<br>而B/S模式就不同了，它不需要专门的客户端，只要浏览器，而浏览器是随操作系统就有的，方便就是他的优势了。<br>而且，B/S是基于网页语言的、与操作系统无关，所以跨平台也是它的优势，而且以后随着网页语言以及浏览器的进步，B/S在表现能力上的处理以及运行的速度上会越来越快，它的缺点将会越来越少。比如，未来的HTML5，在图形的渲染方面以及音频、文件的处理上已经非常强大了。<br>不过，C/S架构也有着不可替代的作用。</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;浏览器缓存，也就是客户端缓存，既是网页性能优化里面静态资源相关优化的一大利器，也是无数web开发人员在工作过程不可避免的一大问题，所以在产品开发的时候我们总是想办法避免缓存产生，而在产品发布之时又在想策略管理缓存提升网页的访问速度。了解浏览器的缓存命中原理，是开发web应用的基础。&lt;br&gt;
+      &lt;p&gt;B/S结构即浏览器和服务器结构。&lt;br&gt;
     
     </summary>
     
       <category term="剪切板" scheme="https://wangzongxu.github.io/categories/%E5%89%AA%E5%88%87%E6%9D%BF/"/>
     
     
-      <category term="浏览器缓存" scheme="https://wangzongxu.github.io/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/"/>
+      <category term="网络" scheme="https://wangzongxu.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
@@ -916,81 +909,6 @@
     
     
       <category term="动画" scheme="https://wangzongxu.github.io/tags/%E5%8A%A8%E7%94%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>console.log打印漂亮的日志</title>
-    <link href="https://wangzongxu.github.io/2017/09/21/console/"/>
-    <id>https://wangzongxu.github.io/2017/09/21/console/</id>
-    <published>2017-09-21T09:09:24.000Z</published>
-    <updated>2017-09-21T09:09:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>打开百度、天猫控制台，你都会发现漂亮的图案，是怎么做的呢？<br><a id="more"></a></p>
-<h4 id="了解console方法"><a href="#了解console方法" class="headerlink" title="了解console方法"></a>了解console方法</h4><p>我们都知道console.log可以打印多个参数：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'A'</span>,<span class="string">'B'</span>,<span class="string">'C'</span>)</span><br></pre></td></tr></table></figure></p>
-<h4 id="占位符"><a href="#占位符" class="headerlink" title="占位符"></a>占位符</h4><p>在console.log输出的字符串中可以加入以下占位符，不同格式的数据必须使用对应格式的占位符，我们只需用到’%c’，其他的就暂且不谈；</p>
-<blockquote>
-<p>%s 字符串<br>%d 整数<br>%i 整数<br>%f 浮点数<br>%o 对象的链接<br>%c CSS格式字符串</p>
-</blockquote>
-<h4 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h4><ul>
-<li>如果第一个参数是格式字符串（使用了格式占位符），console.log方法将依次用后面的参数替换占位符，然后再进行输出，使用很简单：<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'%cABC'</span>,<span class="string">'color:red'</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><img src="https://wangzongxu.github.io/img-cache/console/console1.png" width="300" alt="" align="center"><br>在控制台查看效果，我们发现ABC变成了红色：%c对应第二个参数，这个参数是css字符串，可以包含多个属性，以分号隔开：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'%cABC'</span>,<span class="string">'color:red;font-size:30px'</span>)</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://wangzongxu.github.io/img-cache/console/console2.png" width="400" alt="" align="center"><br>此时我们发现字体变大了。</p>
-<p>如果你想让‘ABC’有更多的风格，我们只需再加上几个’%c’和对应的参数即可：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'%cA%cB%cC'</span>,<span class="string">'color:red'</span>,<span class="string">'color:blue'</span>,<span class="string">'color:green'</span>)</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://wangzongxu.github.io/img-cache/console/console3.png" width="600" alt="" align="center"><br>每一个%c，只对从他后边的字符开始至下一个%c之前的位置起作用，第一个%c到第三个%c的样式，分别对应从第二个参数开始的’color:red’,’color:blue’,’color:green’，如果你想要更多的颜色，可以添加更多占位符。</p>
-<h4 id="制作图案"><a href="#制作图案" class="headerlink" title="制作图案"></a>制作图案</h4><p>这里以我平时使用图案的为例来看一下简单的制作过程：<br><img src="https://wangzongxu.github.io/img-cache/webchalk/webchalk.png" width="500" alt="" align="center"></p>
-<ol>
-<li><p>首先第一步比较重要，也是不容易的，因为需要排版，把组成图案的每一个字符对应准确<br><img src="https://wangzongxu.github.io/img-cache/console/console4.png" width="500" alt="" align="center"><br>这里我先声明一个准备输出的字符串图案，使用的单个字符是一个方块，大家也可以去网上找更多好看的字符尝试，记得在换行的位置加’\n’和该行结束位置的’\’，这个我就不多说了，拼接过字符串的童鞋都知道，当然，如果你使用ES6的模板字符串就不必考虑这么多了。</p>
-</li>
-<li><p>添加占位符<br><img src="https://wangzongxu.github.io/img-cache/console/console5.png" width="500" alt="" align="center"><br>我们在每个需要更换颜色的开始位置增加了占位符，虽然看起来字符已经错位，但是并不影响正常输出。</p>
-</li>
-<li><p>注意占位符的数量和顺序，编写console的样式参数并输出：<br><img src="https://wangzongxu.github.io/img-cache/console/console6.png" width="300" alt="" align="center"></p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>其实非常简单，不过比较头疼的地方就是要选择插入占位符的位置和对准占位符和参数的位置，<br>不过推荐大家一款个人插件:web-chalk</p>
-</li>
-</ol>
-<h4 id="webchalk"><a href="#webchalk" class="headerlink" title="webchalk"></a>webchalk</h4><p><a href="https://github.com/wangzongxu/web-chalk.git" target="_blank" rel="external">web-chalk</a>使用这款插件可以像html一样定义css样式，用法非常简单，不必为上述问题而头疼，链接里有用法简介。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;打开百度、天猫控制台，你都会发现漂亮的图案，是怎么做的呢？&lt;br&gt;
-    
-    </summary>
-    
-      <category term="JS" scheme="https://wangzongxu.github.io/categories/JS/"/>
-    
-    
-      <category term="JS" scheme="https://wangzongxu.github.io/tags/JS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>常用Chrome扩展工具</title>
-    <link href="https://wangzongxu.github.io/2017/09/21/chromeUtils/"/>
-    <id>https://wangzongxu.github.io/2017/09/21/chromeUtils/</id>
-    <published>2017-09-21T09:09:24.000Z</published>
-    <updated>2017-09-21T09:09:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>使用chrome前端开发，就少不了一些扩展程序来提升开发和调试效率，在这里整理一下常用的开发工具：<br><a id="more"></a></p>
-<h4 id="Axure-RP-Extension-for-Chrome"><a href="#Axure-RP-Extension-for-Chrome" class="headerlink" title="Axure RP Extension for Chrome"></a>Axure RP Extension for Chrome</h4><p>这个插件可以打开RP原型文件，本身chrome是不支持的。<br><img src="https://wangzongxu.github.io/img-cache/blog/axure.jpeg" width="300" alt="" align="center"></p>
-<h4 id="JavaScript-and-CSS-Code-Beautifier"><a href="#JavaScript-and-CSS-Code-Beautifier" class="headerlink" title="JavaScript and CSS Code Beautifier"></a>JavaScript and CSS Code Beautifier</h4><p>用于查看js、css等源码时对其进行高亮、格式化、美化、压缩等操作.<br><img src="https://wangzongxu.github.io/img-cache/blog/beautifulCode.png" width="600" alt="" align="center"></p>
-<h4 id="JSON-handle"><a href="#JSON-handle" class="headerlink" title="JSON-handle"></a>JSON-handle</h4><p>它是JSON文档的浏览器和编辑器，可以获得美丽的视图。<br><img src="https://wangzongxu.github.io/img-cache/blog/jsonHandle.png" width="600" alt="" align="center"></p>
-<h4 id="Wappalyzer"><a href="#Wappalyzer" class="headerlink" title="Wappalyzer"></a>Wappalyzer</h4><p>可以知道浏览的网站所用的技术。<br><img src="https://wangzongxu.github.io/img-cache/blog/wappalyzer.png" width="300" alt="" align="center"></p>
-<h4 id="whistle"><a href="#whistle" class="headerlink" title="whistle"></a>whistle</h4><p>whistle是一款用Node实现的跨平台的Web调试代理工具，支持查看修改http(s)、Websocket连接的请求和响应内容。<a href="https://avwo.github.io/whistle/" target="_blank" rel="external">官方中文教程</a><br><img src="https://wangzongxu.github.io/img-cache/blog/whistle1.png" width="200" alt="" align="center"><br><img src="https://wangzongxu.github.io/img-cache/blog/whistle2.png" width="600" alt="" align="center"><br><img src="https://wangzongxu.github.io/img-cache/blog/whistle3.png" width="600" alt="" align="center"></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;使用chrome前端开发，就少不了一些扩展程序来提升开发和调试效率，在这里整理一下常用的开发工具：&lt;br&gt;
-    
-    </summary>
-    
-      <category term="chrome" scheme="https://wangzongxu.github.io/categories/chrome/"/>
-    
-    
-      <category term="chrome" scheme="https://wangzongxu.github.io/tags/chrome/"/>
     
   </entry>
   
@@ -1048,6 +966,150 @@
     
     
       <category term="JS" scheme="https://wangzongxu.github.io/tags/JS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>前端优化技巧</title>
+    <link href="https://wangzongxu.github.io/2017/09/21/front-end-optimzation/"/>
+    <id>https://wangzongxu.github.io/2017/09/21/front-end-optimzation/</id>
+    <published>2017-09-21T09:09:24.000Z</published>
+    <updated>2017-09-21T09:09:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>总结一些前端优化技巧：<br><a id="more"></a></p>
+<h3 id="减少HTTP请求"><a href="#减少HTTP请求" class="headerlink" title="减少HTTP请求"></a>减少HTTP请求</h3><ul>
+<li>把CSS/JS文件进行合并压缩(前端压缩一下,服务器做一下GZIP压缩),一个页面只有一个CSS/JS。</li>
+<li>在移动端页面开发过程中,如果CSS/JS的代码量不是很多的话,我们尽量使用内嵌式。</li>
+<li>数据缓存(localStorage):把我们的CSS/JS代码存储到本地,下一次刷新页面的时候直接的在本地缓存中读取即可,不需要重新的发送HTTP请求了(需要更新可以通过JS的版本号来实现更新)。</li>
+<li>CSS SPRITE 把静态的资源图片进行合并,合并到一张大图上,通过POSITION定位找到具体的图片,这样的话只需要发送一次HTTP请求即可。</li>
+<li>能够用代码(SVG)绘制出来的图片我们尽量不使用IMG来做。</li>
+<li>图片的延迟加载：首屏图片等到一段时间在进行加载,其它屏幕的图片当页面滚动到对应区域的时候在进行延迟加载。</li>
+<li>静态资源小图可采用BASE64技术进行编码。</li>
+<li>数据的异步加载:第一次只请求出部分数据(一般都是一到两屏幕的数据),当我们滚动到的底部的时候在开始加载下面的两屏幕数据(上拉/下拉刷新)。</li>
+<li>数据缓存(localStorage):第一次把请求回来的数据保存在自己的本地,在有效时间内,我们刷新页面的时候,只需要把本地的存储数据获取到绑定到页面中即可,不需要重新的发送Ajax请求,直到时间过期,在从新的发送请求,用最新请求的数据替换本地之前存储的数据。</li>
+<li>把音视频播放进行延迟加载(PRELOAD=’NONE’),在JS中做延迟播放,播放的时候在加载资源;有条件的话可以把音视频都用文件流的方式进行操作;</li>
+</ul>
+<h3 id="减少HTTP请求资源的大小"><a href="#减少HTTP请求资源的大小" class="headerlink" title="减少HTTP请求资源的大小"></a>减少HTTP请求资源的大小</h3><ul>
+<li><a href="/2017/03/26/yahoo34/">雅虎优化34条建议</a></li>
+<li>CSS/JS去除冗余代码(低耦合高内聚)</li>
+<li>图片尽量压缩</li>
+<li>每一次请求回来的数据尽量少一些,我们可以分批请求</li>
+<li>所有的CSS/JS上传到服务器的都是经过压缩过的</li>
+</ul>
+<h3 id="代码优化"><a href="#代码优化" class="headerlink" title="代码优化"></a>代码优化</h3><ul>
+<li>尽量减少不销毁闭包的使用(堆栈内存的释放问题)</li>
+<li>尽量多使用异步编程,少使用同步编程</li>
+<li>移动端开发,能够使用CSS实现的功能最好也不用JS;能够使用CSS3实现的动画,绝对不用JS;能用TransForm实现的动画尽量用它实现(TransForm开启了硬件加速);能够自己使用原生的JS实现的,绝对不用任何的框架或者类库(多人开发,项目偏大,我们在使用相关的框架);</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;总结一些前端优化技巧：&lt;br&gt;
+    
+    </summary>
+    
+      <category term="前端优化" scheme="https://wangzongxu.github.io/categories/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96/"/>
+    
+    
+      <category term="前端优化" scheme="https://wangzongxu.github.io/tags/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hexo</title>
+    <link href="https://wangzongxu.github.io/2017/09/21/hexo/"/>
+    <id>https://wangzongxu.github.io/2017/09/21/hexo/</id>
+    <published>2017-09-21T09:09:24.000Z</published>
+    <updated>2017-09-21T09:09:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。<br><a id="more"></a></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>安装 Hexo 相当简单。然而在安装前，您必须检查电脑中是否已安装下列应用程序：</p>
+<ul>
+<li><a href="http://nodejs.org/" target="_blank" rel="external">node</a></li>
+<li><a href="http://git-scm.com/" target="_blank" rel="external">git</a></li>
+</ul>
+<p>安装hexo</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>node版本5.0或更高导致报错，但不影响hexo的正常使用</p>
+</blockquote>
+<h3 id="建站"><a href="#建站" class="headerlink" title="建站"></a>建站</h3><p>安装 Hexo 完成后，请执行下列命令，Hexo 将会在指定文件夹中新建所需要的文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;folder&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<p>新建完成后，指定文件夹的目录如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml</span><br><span class="line">├── package.json</span><br><span class="line">├── scaffolds</span><br><span class="line">├── source</span><br><span class="line">|   ├── _drafts</span><br><span class="line">|   └── _posts</span><br><span class="line">└── themes</span><br></pre></td></tr></table></figure>
+<h3 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h3><p>网站的 配置 信息，您可以在此配置大部分的参数。</p>
+<h3 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h3><p>应用程序的信息。EJS, Stylus 和 Markdown renderer 已默认安装，您可以自由移除。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"hexo-site"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"0.0.0"</span>,</span><br><span class="line">  <span class="attr">"private"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"hexo"</span>: &#123;</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">""</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"hexo"</span>: <span class="string">"^3.0.0"</span>,</span><br><span class="line">    <span class="attr">"hexo-generator-archive"</span>: <span class="string">"^0.1.0"</span>,</span><br><span class="line">    <span class="attr">"hexo-generator-category"</span>: <span class="string">"^0.1.0"</span>,</span><br><span class="line">    <span class="attr">"hexo-generator-index"</span>: <span class="string">"^0.1.0"</span>,</span><br><span class="line">    <span class="attr">"hexo-generator-tag"</span>: <span class="string">"^0.1.0"</span>,</span><br><span class="line">    <span class="attr">"hexo-renderer-ejs"</span>: <span class="string">"^0.1.0"</span>,</span><br><span class="line">    <span class="attr">"hexo-renderer-stylus"</span>: <span class="string">"^0.2.0"</span>,</span><br><span class="line">    <span class="attr">"hexo-renderer-marked"</span>: <span class="string">"^0.2.4"</span>,</span><br><span class="line">    <span class="attr">"hexo-server"</span>: <span class="string">"^0.1.2"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="scaffolds"><a href="#scaffolds" class="headerlink" title="scaffolds"></a>scaffolds</h3><p>模版 文件夹。当您新建文章时，Hexo 会根据 scaffold 来建立文件。<br>Hexo的模板是指在新建的markdown文件中默认填充的内容。例如，如果您修改scaffold/post.md中的Front-matter内容，那么每次新建一篇文章时都会包含这个修改。</p>
+<h3 id="source"><a href="#source" class="headerlink" title="source"></a>source</h3><p>资源文件夹是存放用户资源的地方。除 _posts 文件夹之外，开头命名为 _ (下划线)的文件 / 文件夹和隐藏的文件将会被忽略。Markdown 和 HTML 文件会被解析并放到 public 文件夹，而其他文件会被拷贝过去。</p>
+<h3 id="themes"><a href="#themes" class="headerlink" title="themes"></a>themes</h3><p><a href="https://hexo.io/themes/" target="_blank" rel="external">主题</a> 文件夹。Hexo 会根据主题来生成静态页面。</p>
+<ol>
+<li>在themes文件夹下新建一个文件夹准备存放主题文件，例如命名为’simple’</li>
+<li>更改根目录下_config.yml文件中的theme字段的值为 simple（注意空格开头）</li>
+<li>选择喜欢的<a href="https://hexo.io/themes/" target="_blank" rel="external">主题</a>并下载解压到刚刚创建的simple文件夹下</li>
+<li>命令行执行 hexo server</li>
+</ol>
+<h3 id="一键部署到Github"><a href="#一键部署到Github" class="headerlink" title="一键部署到Github"></a>一键部署到Github</h3><ol>
+<li>在自己github下新建一个仓库并命名为‘github用户名’+’.github.io’</li>
+<li><p>编辑根目录下的_config.yml,拖到最下方,找到deploy标签,然后更为如下配置,注意:你自己在修改时,需要将 xxxxx修改为自己的github用户名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type: git</span><br><span class="line">repository: https://github.com/xxxxx/xxxxx.github.io.git</span><br><span class="line">branch: master</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装插件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git –save</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译<br>执行项目清理和静态网页生成</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>部署</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>完成<br>去自己刚刚建立的github仓库查看是否成功部署</p>
+</li>
+</ol>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hexo init [blogName] <span class="comment">#初始化博客</span></span><br><span class="line">hexo version <span class="comment">#hexo版本</span></span><br><span class="line">hexo new <span class="string">"我的博客"</span> ==hexo n <span class="string">"我的博客"</span><span class="comment">#新建文章</span></span><br><span class="line">hexo publish  == hexo p <span class="comment">#发表草稿</span></span><br><span class="line">hexo generate == hexo g <span class="comment">#生成</span></span><br><span class="line">hexo clean <span class="comment">#清除缓存文件 (db.json) 和已生成的静态文件 (public)</span></span><br><span class="line">hexo server == hexo s <span class="comment">#启动服务预览</span></span><br><span class="line">hexo deploy ==hexo d <span class="comment">#部署</span></span><br></pre></td></tr></table></figure>
+<h3 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hexo server <span class="comment">#Hexo 会监视文件变动并自动更新，您无须重启服务器。</span></span><br><span class="line">hexo server -s <span class="comment">#静态模式</span></span><br><span class="line">hexo server -p 5000 <span class="comment">#更改端口</span></span><br><span class="line">hexo server -i 192.168.1.1 <span class="comment">#自定义 IP</span></span><br><span class="line"></span><br><span class="line">hexo clean <span class="comment">#清除缓存 网页正常情况下可以忽略此条命令</span></span><br><span class="line">hexo g <span class="comment">#生成静态网页</span></span><br><span class="line">hexo d <span class="comment">#开始部署</span></span><br></pre></td></tr></table></figure>
+<h3 id="监视文件变动"><a href="#监视文件变动" class="headerlink" title="监视文件变动"></a>监视文件变动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate <span class="comment">#生成静态文件</span></span><br><span class="line">hexo generate --watch <span class="comment">#监视文件变动自动生成静态文件</span></span><br></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="博客" scheme="https://wangzongxu.github.io/categories/%E5%8D%9A%E5%AE%A2/"/>
+    
+    
+      <category term="博客" scheme="https://wangzongxu.github.io/tags/%E5%8D%9A%E5%AE%A2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>demo之canvas打砖块</title>
+    <link href="https://wangzongxu.github.io/2017/09/21/hitBricks-canvas-demo/"/>
+    <id>https://wangzongxu.github.io/2017/09/21/hitBricks-canvas-demo/</id>
+    <published>2017-09-21T09:09:24.000Z</published>
+    <updated>2017-09-21T09:09:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>一个canvas打砖块小游戏</p>
+<a id="more"></a>
+<blockquote>
+<p>扫码查看：</p>
+</blockquote>
+<p><img width="200" alt="" align="center" src="https://wangzongxu.github.io/img-cache/blog/hitBricksCode.png"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;一个canvas打砖块小游戏&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="canvas" scheme="https://wangzongxu.github.io/categories/canvas/"/>
+    
+    
+      <category term="动画" scheme="https://wangzongxu.github.io/tags/%E5%8A%A8%E7%94%BB/"/>
     
   </entry>
   
@@ -2514,222 +2576,25 @@
   </entry>
   
   <entry>
-    <title>前端优化技巧</title>
-    <link href="https://wangzongxu.github.io/2017/09/21/front-end-optimzation/"/>
-    <id>https://wangzongxu.github.io/2017/09/21/front-end-optimzation/</id>
+    <title>道德经</title>
+    <link href="https://wangzongxu.github.io/2017/09/21/TaoTeChing/"/>
+    <id>https://wangzongxu.github.io/2017/09/21/TaoTeChing/</id>
     <published>2017-09-21T09:09:24.000Z</published>
     <updated>2017-09-21T09:09:24.000Z</updated>
     
-    <content type="html"><![CDATA[<p>总结一些前端优化技巧：<br><a id="more"></a></p>
-<h3 id="减少HTTP请求"><a href="#减少HTTP请求" class="headerlink" title="减少HTTP请求"></a>减少HTTP请求</h3><ul>
-<li>把CSS/JS文件进行合并压缩(前端压缩一下,服务器做一下GZIP压缩),一个页面只有一个CSS/JS。</li>
-<li>在移动端页面开发过程中,如果CSS/JS的代码量不是很多的话,我们尽量使用内嵌式。</li>
-<li>数据缓存(localStorage):把我们的CSS/JS代码存储到本地,下一次刷新页面的时候直接的在本地缓存中读取即可,不需要重新的发送HTTP请求了(需要更新可以通过JS的版本号来实现更新)。</li>
-<li>CSS SPRITE 把静态的资源图片进行合并,合并到一张大图上,通过POSITION定位找到具体的图片,这样的话只需要发送一次HTTP请求即可。</li>
-<li>能够用代码(SVG)绘制出来的图片我们尽量不使用IMG来做。</li>
-<li>图片的延迟加载：首屏图片等到一段时间在进行加载,其它屏幕的图片当页面滚动到对应区域的时候在进行延迟加载。</li>
-<li>静态资源小图可采用BASE64技术进行编码。</li>
-<li>数据的异步加载:第一次只请求出部分数据(一般都是一到两屏幕的数据),当我们滚动到的底部的时候在开始加载下面的两屏幕数据(上拉/下拉刷新)。</li>
-<li>数据缓存(localStorage):第一次把请求回来的数据保存在自己的本地,在有效时间内,我们刷新页面的时候,只需要把本地的存储数据获取到绑定到页面中即可,不需要重新的发送Ajax请求,直到时间过期,在从新的发送请求,用最新请求的数据替换本地之前存储的数据。</li>
-<li>把音视频播放进行延迟加载(PRELOAD=’NONE’),在JS中做延迟播放,播放的时候在加载资源;有条件的话可以把音视频都用文件流的方式进行操作;</li>
-</ul>
-<h3 id="减少HTTP请求资源的大小"><a href="#减少HTTP请求资源的大小" class="headerlink" title="减少HTTP请求资源的大小"></a>减少HTTP请求资源的大小</h3><ul>
-<li><a href="/2017/03/26/yahoo34/">雅虎优化34条建议</a></li>
-<li>CSS/JS去除冗余代码(低耦合高内聚)</li>
-<li>图片尽量压缩</li>
-<li>每一次请求回来的数据尽量少一些,我们可以分批请求</li>
-<li>所有的CSS/JS上传到服务器的都是经过压缩过的</li>
-</ul>
-<h3 id="代码优化"><a href="#代码优化" class="headerlink" title="代码优化"></a>代码优化</h3><ul>
-<li>尽量减少不销毁闭包的使用(堆栈内存的释放问题)</li>
-<li>尽量多使用异步编程,少使用同步编程</li>
-<li>移动端开发,能够使用CSS实现的功能最好也不用JS;能够使用CSS3实现的动画,绝对不用JS;能用TransForm实现的动画尽量用它实现(TransForm开启了硬件加速);能够自己使用原生的JS实现的,绝对不用任何的框架或者类库(多人开发,项目偏大,我们在使用相关的框架);</li>
-</ul>
+    <content type="html"><![CDATA[<p>整理了一下道德经诸传本，加粗浅的字面解释；<br>道德经解释仁者见仁智者见智，需要有自己的理解，因为其中的玄妙不是能够用语言可以表达的，正所谓：道可道，非常道。<br><a id="more"></a><br><a href="https://wangzongxu.gitbooks.io/taoteching/content/" target="_blank" rel="external">点击阅读</a><br><a href="https://wangzongxu.gitbooks.io/taoteching/content/" target="_blank" rel="external">https://wangzongxu.gitbooks.io/taoteching/content/</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;总结一些前端优化技巧：&lt;br&gt;
+      &lt;p&gt;整理了一下道德经诸传本，加粗浅的字面解释；&lt;br&gt;道德经解释仁者见仁智者见智，需要有自己的理解，因为其中的玄妙不是能够用语言可以表达的，正所谓：道可道，非常道。&lt;br&gt;
     
     </summary>
     
-      <category term="前端优化" scheme="https://wangzongxu.github.io/categories/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96/"/>
+      <category term="国学" scheme="https://wangzongxu.github.io/categories/%E5%9B%BD%E5%AD%A6/"/>
     
     
-      <category term="前端优化" scheme="https://wangzongxu.github.io/tags/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo</title>
-    <link href="https://wangzongxu.github.io/2017/09/21/hexo/"/>
-    <id>https://wangzongxu.github.io/2017/09/21/hexo/</id>
-    <published>2017-09-21T09:09:24.000Z</published>
-    <updated>2017-09-21T09:09:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。<br><a id="more"></a></p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>安装 Hexo 相当简单。然而在安装前，您必须检查电脑中是否已安装下列应用程序：</p>
-<ul>
-<li><a href="http://nodejs.org/" target="_blank" rel="external">node</a></li>
-<li><a href="http://git-scm.com/" target="_blank" rel="external">git</a></li>
-</ul>
-<p>安装hexo</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>node版本5.0或更高导致报错，但不影响hexo的正常使用</p>
-</blockquote>
-<h3 id="建站"><a href="#建站" class="headerlink" title="建站"></a>建站</h3><p>安装 Hexo 完成后，请执行下列命令，Hexo 将会在指定文件夹中新建所需要的文件。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;folder&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-<p>新建完成后，指定文件夹的目录如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml</span><br><span class="line">├── package.json</span><br><span class="line">├── scaffolds</span><br><span class="line">├── source</span><br><span class="line">|   ├── _drafts</span><br><span class="line">|   └── _posts</span><br><span class="line">└── themes</span><br></pre></td></tr></table></figure>
-<h3 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h3><p>网站的 配置 信息，您可以在此配置大部分的参数。</p>
-<h3 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h3><p>应用程序的信息。EJS, Stylus 和 Markdown renderer 已默认安装，您可以自由移除。</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"hexo-site"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"0.0.0"</span>,</span><br><span class="line">  <span class="attr">"private"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"hexo"</span>: &#123;</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">""</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"hexo"</span>: <span class="string">"^3.0.0"</span>,</span><br><span class="line">    <span class="attr">"hexo-generator-archive"</span>: <span class="string">"^0.1.0"</span>,</span><br><span class="line">    <span class="attr">"hexo-generator-category"</span>: <span class="string">"^0.1.0"</span>,</span><br><span class="line">    <span class="attr">"hexo-generator-index"</span>: <span class="string">"^0.1.0"</span>,</span><br><span class="line">    <span class="attr">"hexo-generator-tag"</span>: <span class="string">"^0.1.0"</span>,</span><br><span class="line">    <span class="attr">"hexo-renderer-ejs"</span>: <span class="string">"^0.1.0"</span>,</span><br><span class="line">    <span class="attr">"hexo-renderer-stylus"</span>: <span class="string">"^0.2.0"</span>,</span><br><span class="line">    <span class="attr">"hexo-renderer-marked"</span>: <span class="string">"^0.2.4"</span>,</span><br><span class="line">    <span class="attr">"hexo-server"</span>: <span class="string">"^0.1.2"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="scaffolds"><a href="#scaffolds" class="headerlink" title="scaffolds"></a>scaffolds</h3><p>模版 文件夹。当您新建文章时，Hexo 会根据 scaffold 来建立文件。<br>Hexo的模板是指在新建的markdown文件中默认填充的内容。例如，如果您修改scaffold/post.md中的Front-matter内容，那么每次新建一篇文章时都会包含这个修改。</p>
-<h3 id="source"><a href="#source" class="headerlink" title="source"></a>source</h3><p>资源文件夹是存放用户资源的地方。除 _posts 文件夹之外，开头命名为 _ (下划线)的文件 / 文件夹和隐藏的文件将会被忽略。Markdown 和 HTML 文件会被解析并放到 public 文件夹，而其他文件会被拷贝过去。</p>
-<h3 id="themes"><a href="#themes" class="headerlink" title="themes"></a>themes</h3><p><a href="https://hexo.io/themes/" target="_blank" rel="external">主题</a> 文件夹。Hexo 会根据主题来生成静态页面。</p>
-<ol>
-<li>在themes文件夹下新建一个文件夹准备存放主题文件，例如命名为’simple’</li>
-<li>更改根目录下_config.yml文件中的theme字段的值为 simple（注意空格开头）</li>
-<li>选择喜欢的<a href="https://hexo.io/themes/" target="_blank" rel="external">主题</a>并下载解压到刚刚创建的simple文件夹下</li>
-<li>命令行执行 hexo server</li>
-</ol>
-<h3 id="一键部署到Github"><a href="#一键部署到Github" class="headerlink" title="一键部署到Github"></a>一键部署到Github</h3><ol>
-<li>在自己github下新建一个仓库并命名为‘github用户名’+’.github.io’</li>
-<li><p>编辑根目录下的_config.yml,拖到最下方,找到deploy标签,然后更为如下配置,注意:你自己在修改时,需要将 xxxxx修改为自己的github用户名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type: git</span><br><span class="line">repository: https://github.com/xxxxx/xxxxx.github.io.git</span><br><span class="line">branch: master</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装插件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git –save</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>编译<br>执行项目清理和静态网页生成</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>部署</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>完成<br>去自己刚刚建立的github仓库查看是否成功部署</p>
-</li>
-</ol>
-<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hexo init [blogName] <span class="comment">#初始化博客</span></span><br><span class="line">hexo version <span class="comment">#hexo版本</span></span><br><span class="line">hexo new <span class="string">"我的博客"</span> ==hexo n <span class="string">"我的博客"</span><span class="comment">#新建文章</span></span><br><span class="line">hexo publish  == hexo p <span class="comment">#发表草稿</span></span><br><span class="line">hexo generate == hexo g <span class="comment">#生成</span></span><br><span class="line">hexo clean <span class="comment">#清除缓存文件 (db.json) 和已生成的静态文件 (public)</span></span><br><span class="line">hexo server == hexo s <span class="comment">#启动服务预览</span></span><br><span class="line">hexo deploy ==hexo d <span class="comment">#部署</span></span><br></pre></td></tr></table></figure>
-<h3 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hexo server <span class="comment">#Hexo 会监视文件变动并自动更新，您无须重启服务器。</span></span><br><span class="line">hexo server -s <span class="comment">#静态模式</span></span><br><span class="line">hexo server -p 5000 <span class="comment">#更改端口</span></span><br><span class="line">hexo server -i 192.168.1.1 <span class="comment">#自定义 IP</span></span><br><span class="line"></span><br><span class="line">hexo clean <span class="comment">#清除缓存 网页正常情况下可以忽略此条命令</span></span><br><span class="line">hexo g <span class="comment">#生成静态网页</span></span><br><span class="line">hexo d <span class="comment">#开始部署</span></span><br></pre></td></tr></table></figure>
-<h3 id="监视文件变动"><a href="#监视文件变动" class="headerlink" title="监视文件变动"></a>监视文件变动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate <span class="comment">#生成静态文件</span></span><br><span class="line">hexo generate --watch <span class="comment">#监视文件变动自动生成静态文件</span></span><br></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="博客" scheme="https://wangzongxu.github.io/categories/%E5%8D%9A%E5%AE%A2/"/>
-    
-    
-      <category term="博客" scheme="https://wangzongxu.github.io/tags/%E5%8D%9A%E5%AE%A2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>demo之canvas打砖块</title>
-    <link href="https://wangzongxu.github.io/2017/09/21/hitBricks-canvas-demo/"/>
-    <id>https://wangzongxu.github.io/2017/09/21/hitBricks-canvas-demo/</id>
-    <published>2017-09-21T09:09:24.000Z</published>
-    <updated>2017-09-21T09:09:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>一个canvas打砖块小游戏</p>
-<a id="more"></a>
-<blockquote>
-<p>扫码查看：</p>
-</blockquote>
-<p><img width="200" alt="" align="center" src="https://wangzongxu.github.io/img-cache/blog/hitBricksCode.png"></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;一个canvas打砖块小游戏&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="canvas" scheme="https://wangzongxu.github.io/categories/canvas/"/>
-    
-    
-      <category term="动画" scheme="https://wangzongxu.github.io/tags/%E5%8A%A8%E7%94%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BS 架构概述</title>
-    <link href="https://wangzongxu.github.io/2017/09/21/BS/"/>
-    <id>https://wangzongxu.github.io/2017/09/21/BS/</id>
-    <published>2017-09-21T09:09:24.000Z</published>
-    <updated>2017-09-21T09:09:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>B/S结构即浏览器和服务器结构。<br><a id="more"></a><br></p>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>它是随着互联网s技术的兴起，对C/S结构的一种变化或者改进的结构。<br>在这种结构下，用户工作界面是通过WWW浏览器来实现，极少部分事务逻辑在前端(Browser)实现，但是主要事务逻辑在服务器端(Server)实现，形成所谓三层3-tier结构。<br>B/S结构是WEB兴起后的一种网络结构模式，WEB浏览器是客户端最主要的应用软件。这种模式统一了客户端，将系统功能实现的核心部分集中到服务器上，简化了系统的开发、维护和使用。<br>客户机上只要安装一个浏览器（Browser），服务器安装Oracle、Sybase、Informix或 SQL Server等数据库。浏览器通过Web Server同数据库进行数据交互。 这样就大大简化了客户端电脑载荷，减轻了系统维护与升级的成本和工作量，降低了用户的总体成本(TCO)。</p>
-<h2 id="维护和升级"><a href="#维护和升级" class="headerlink" title="维护和升级"></a>维护和升级</h2><p>软件系统的改进和升级越来越频繁，B/S架构的产品明显体现着更为方便的特性。<br>对一个稍微大一点单位来说，系统管理人员如果需要在几百甚至上千部电脑之间来回奔跑，效率和工作量是可想而知的，但B/S架构的软件只需要管理服务器就行了，所有的客户端只是浏览器，根本不需要做任何的维护。<br>无论用户的规模有多大，有多少分支机构都不会增加任何维护升级的工作量，所有的操作只需要针对服务器进行；如果是异地，只需要把服务器连接专网即可，实现远程维护、升级和共享。所以客户机越来越“瘦”，而服务器越来越“胖”是将来信息化发展的主流方向。<br>今后，软件升级和维护会越来越容易，而使用起来会越来越简单，这对用户人力、物力、时间、费用的节省是显而易见的，惊人的。因此，维护和升级革命的方式是“瘦”客户机，“胖”服务器。</p>
-<h2 id="成本与选择"><a href="#成本与选择" class="headerlink" title="成本与选择"></a>成本与选择</h2><p>大家都知道windows在桌面电脑上几乎一统天下，浏览器成为了标准配置。<br>但在服务器操作系统上，windows并不是处于绝对的统治地位。<br>软件的趋势是凡使用B/S架构的应用管理软件，只需安装在Linux服务器上即可，而且安全性高。<br>所以服务器操作系统的选择是很多的，不管选用那种操作系统都可以让大部分人使用windows作为桌面操作系统电脑不受影响，这就使得最流行免费的Linux操作系统快速发展起来，Linux除了操作系统是免费的以外，连数据库也是免费的，这种选择非常盛行。</p>
-<h2 id="负荷重"><a href="#负荷重" class="headerlink" title="负荷重"></a>负荷重</h2><p>由于B/S架构管理软件只安装在服务器端（Server）上，网络管理人员只需要管理服务器就行了，用户界面主要事务逻辑在服务器（Server）端完全通过WWW浏览器实现，极少部分事务逻辑在前端（Browser）实现，所有的客户端只有浏览器，网络管理人员只需要做硬件维护。<br>但是，应用服务器运行数据负荷较重，一旦发生服务器“崩溃”等问题，后果不堪设想。因此，许多单位都备有数据库存储服务器，以防万一。</p>
-<h2 id="C-S特点"><a href="#C-S特点" class="headerlink" title="C/S特点"></a>C/S特点</h2><p>C/S又称Client/Server或客户/服务器模式。<br>服务器通常采用高性能的PC、工作站或小型机，并采用大型数据库系统，如Oracle、Sybase、Informix或 SQL Server。客户端需要安装专用的客户端软件。<br>C/S的优点是能充分发挥客户端PC的处理能力，很多工作可以在客户端处理后再提交给服务器。对应的优点就是客户端响应速度快。缺点主要有以下几个：  </p>
-<p>而随着互联网的飞速发展，移动办公和分布式办公越来越普及，这需要我们的系统具有扩展性。这种方式远程访问需要专门的技术，同时要对系统进行专门的设计来处理分布式的数据。  </p>
-<p>客户端需要安装专用的客户端软件。首先涉及到安装的工作量，其次任何一台电脑出问题，如病毒、硬件损坏，都需要进行安装或维护。特别是有很多分部或专卖店的情况，不是工作量的问题，而是路程的问题。还有，系统软件升级时，每一台客户机需要重新安装，其维护和升级成本非常高。  </p>
-<p>对客户端的操作系统一般也会有限制。可能适应于Win98，但不能用于win2000或Windows XP。或者不适用于微软新的操作系统等等，更不用说Linux、Unix等。  </p>
-<p>Client/Server是建立在局域网的基础上的。Browser/Server是建立在广域网的基础上的。  </p>
-<ol>
-<li><p>硬件环境不同：C/S 一般建立在专用的网络上，小范围里的网络环境，局域网之间再通过专门服务器提供连接和数据交换服务。B/S 建立在广域网之上的， 不必是专门的网络硬件环境。例如电话上网,，租用设备.，信息管理，有比C/S更强的适应范围，一般只要有操作系统和浏览器就行。</p>
-</li>
-<li><p>对安全要求不同：C/S 一般面向相对固定的用户群， 对信息安全的控制能力很强， 一般高度机密的信息系统采用C/S 结构适宜，可以通过B/S发布部分可公开信息。B/S 建立在广域网之上, 对安全的控制能力相对弱，面向是不可知的用户群。</p>
-</li>
-<li><p>对程序架构不同：C/S 程序可以更加注重流程,，可以对权限多层次校验,，对系统运行速度可以较少考虑。B/S 对安全以及访问速度的多重的考虑,，建立在需要更加优化的基础之上，比C/S有更高的要求。 B/S结构的程序架构是发展的趋势，从MS的.Net系列的BizTalk 2000 Exchange 2000等，全面支持网络的构件搭建的系统.。SUN 和IBM推的JavaBean 构件技术等，使 B/S更加成熟。</p>
-</li>
-<li><p>软件重用不同：C/S 程序可以不可避免的整体性考虑，构件的重用性不如在B/S要求下的构件的重用性好。B/S 对的多重结构,要求构件相对独立的功能，能够相对较好的重用。</p>
-</li>
-<li><p>系统维护不同：系统维护在是软件生存周期中，开销大。重要C/S 程序由于整体性,，必须整体考察， 处理出现的问题以及系统升级。升级难，可能是再做一个全新的系统。B/S程序由构件组成，方便构件个别的更换，实现系统的无缝升级，系统维护开销减到最小，用户从网上自己下载安装就可以实现升级。</p>
-</li>
-<li><p>处理问题不同：C/S 程序可以处理用户面固定，并且在相同区域,，安全要求高需求，与操作系统相关，应该都是相同的系统。B/S 建立在广域网上，面向不同的用户群，分散地域，这是C/S无法作到的，与操作系统平台关系最小。</p>
-</li>
-<li><p>用户接口不同：C/S 多是建立的Window平台上，表现方法有限。对程序员普遍要求较高。B/S 建立在浏览器上,，有更加丰富和生动的表现方式与用户交流，并且大部分难度减低，减低开发成本。</p>
-</li>
-<li><p>信息流不同：C/S 程序一般是典型的中央集权的机械式处理，交互性相对低。B/S 信息流向可变化， B-B、 B-C、 B-G等信息流向的变化，更象交易中心。</p>
-</li>
-</ol>
-<h5 id="技术比较"><a href="#技术比较" class="headerlink" title="技术比较"></a>技术比较</h5><p>C/S结构软件（即客户机/服务器模式）分为客户机和服务器两层，客户机不是毫无运算能力的输入、输出设备，而是具有了一定的数据处理和数据存储能力，通过把应用软件的计算和数据合理地分配在客户机和服务器两端，可以有效地降低网络通信量和服务器运算量。由于服务器连接个数和数据通信量的限制，这种结构的软件适于在用户数目不多的局域网内使用。国内现阶段的大部分ERP（财务）软件产品即属于此类结构。  </p>
-<p>B/S(浏览器/服务器模式)是随着Internet技术的兴起，对C/S结构的一种改进。在这种结构下，软件应用的业务逻辑完全在应用服务器端实现，用户表现完全在Web服务器实现，客户端只需要浏览器即可进行业务处理，是一种全新的软件系统构造技术。这种结构更成为当今应用软件的首选体系结构。e通管理系列产品即属于此类结构。  </p>
-<ol>
-<li><p>数据安全性比较。由于C/S结构软件的数据分布特性，客户端所发生的火灾、盗抢、地震、病毒、黑客等都成了可怕的数据杀手。另外，对于集团级的异地软件应用，C/S结构的软件必须在各地安装多个服务器，并在多个服务器之间进行数据同步。如此一来，每个数据点上的数据安全都影响了整个应用的数据安全。所以，对于集团级的大型应用来讲，C/S结构软件的安全性是令人无法接受的。对于B/S结构的软件来讲，由于其数据集中存放于总部的数据库服务器，客户端不保存任何业务数据和数据库连接信息，也无需进行什么数据同步，所以这些安全问题也就自然不存在了。</p>
-</li>
-<li><p>数据一致性比较。在C/S结构软件的解决方案里，对于异地经营的大型集团都采用各地安装区域级服务器，然后再进行数据同步的模式。这些服务器每天必须同步完毕之后，总部才可得到最终的数据。由于局部网络故障造成个别数据库不能同步不说，即使同步上来，各服务器也不是一个时点上的数据，数据永远无法一致，不能用于决策。对于B/S结构的软件来讲，其数据是集中存放的，客户端发生的每一笔业务单据都直接进入到中央数据库，不存在数据一致性的问题。</p>
-</li>
-<li><p>数据实时性比较。在集团级应用里，C/S结构不可能随时随地看到当前业务的发生情况，看到的都是事后数据；而B/S结构则不同，它可以实时看到当前发生的所有业务，方便了快速决策，有效地避免了企业损失。</p>
-</li>
-<li><p>数据溯源性比较。由于B/S结构的数据是集中存放的，所以总公司可以直接追溯到各级分支机构（分公司、门店）的原始业务单据，也就是说看到的结果可溯源。大部分C/S结构的软件则不同，为了减少数据通信量，仅仅上传中间报表数据，在总部不可能查到各分支机构（分公司、门店）的原始单据。</p>
-</li>
-<li><p>服务响应及时性比较。企业的业务流程、业务模式不是一成不变的，随着企业不断发展，必然会不断调整。软件供应商提供的软件也不是完美无缺的，所以，对已经部署的软件产品进行维护、升级是正常的。C/S结构软件，由于其应用是分布的，需要对每一个使用节点进行程序安装，所以，即使非常小的程序缺陷都需要很长的重新部署时间，重新部署时，为了保证各程序版本的一致性，必须暂停一切业务进行更新（即“休克更新”），其服务响应时间基本不可忍受。而B/S结构的软件不同，其应用都集中于总部服务器上，各应用结点并没有任何程序，一个地方更新则全部应用程序更新，可以做到快速服务响应。</p>
-</li>
-<li><p>网络应用限制比较。C/S结构软件仅适用于局域网内部用户或宽带用户（1兆以上）；而我们的B/S结构软件可以适用于任何网络结构（包括33.6K拨号入网方式），特别适于宽带不能到达的地方（例如迪信通集团的某些分公司，仅靠电话上网即可正常使用软件系统）。</p>
-</li>
-<li><p>存储模式比较。B/S结构相应数据完全来自于后台数据库，而C/S结构部分数据来源于存储在本地的临时文件，剩余的部分来源于数据库，因此C/S结构响应时间会更快。</p>
-</li>
-</ol>
-<h5 id="商业比较"><a href="#商业比较" class="headerlink" title="商业比较"></a>商业比较</h5><ol>
-<li><p>投入成本比较。B/S结构软件一般只有初期一次性投入成本。对于集团来讲，有利于软件项目控制和避免IT黑洞，而C/S结构的软件则不同，随着应用范围的扩大，投资会连绵不绝。</p>
-</li>
-<li><p>硬件投资保护比较。在对已有硬件投资的保护方面，两种结构也是完全不同的。当应用范围扩大，系统负载上升时，C/S结构软件的一般解决方案是购买更高性能的服务器；而B/S架构则是通过增加服务器的数量来承担更大的负载。</p>
-</li>
-</ol>
-<h2 id="融合"><a href="#融合" class="headerlink" title="融合"></a>融合</h2><p>未来发展趋势，是将B/S与C/S的优势完美地结合起来，就是说，该平台的应用系统既能以B/S的方式发布运行，同时又具有C/S方式的极强的可操作性。</p>
-<h2 id="发展前景"><a href="#发展前景" class="headerlink" title="发展前景"></a>发展前景</h2><p>C/S和B/S各有优势，C/S在图形的表现能力上以及运行的速度上肯定是强于B/S模式的，不过缺点就是他需要运行专门的客户端，而且更重要的是它不能跨平台，用c++在windows下写的程序肯定是不能在linux下跑的。<br>而B/S模式就不同了，它不需要专门的客户端，只要浏览器，而浏览器是随操作系统就有的，方便就是他的优势了。<br>而且，B/S是基于网页语言的、与操作系统无关，所以跨平台也是它的优势，而且以后随着网页语言以及浏览器的进步，B/S在表现能力上的处理以及运行的速度上会越来越快，它的缺点将会越来越少。比如，未来的HTML5，在图形的渲染方面以及音频、文件的处理上已经非常强大了。<br>不过，C/S架构也有着不可替代的作用。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;B/S结构即浏览器和服务器结构。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="剪切板" scheme="https://wangzongxu.github.io/categories/%E5%89%AA%E5%88%87%E6%9D%BF/"/>
-    
-    
-      <category term="网络" scheme="https://wangzongxu.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
+      <category term="电子书" scheme="https://wangzongxu.github.io/tags/%E7%94%B5%E5%AD%90%E4%B9%A6/"/>
     
   </entry>
   
@@ -2986,29 +2851,6 @@
     
     
       <category term="草稿" scheme="https://wangzongxu.github.io/tags/%E8%8D%89%E7%A8%BF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>道德经</title>
-    <link href="https://wangzongxu.github.io/2017/09/21/TaoTeChing/"/>
-    <id>https://wangzongxu.github.io/2017/09/21/TaoTeChing/</id>
-    <published>2017-09-21T09:09:24.000Z</published>
-    <updated>2017-09-21T09:09:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>整理了一下道德经诸传本，加粗浅的字面解释；<br>道德经解释仁者见仁智者见智，需要有自己的理解，因为其中的玄妙不是能够用语言可以表达的，正所谓：道可道，非常道。<br><a id="more"></a><br><a href="https://wangzongxu.gitbooks.io/taoteching/content/" target="_blank" rel="external">点击阅读</a><br><a href="https://wangzongxu.gitbooks.io/taoteching/content/" target="_blank" rel="external">https://wangzongxu.gitbooks.io/taoteching/content/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;整理了一下道德经诸传本，加粗浅的字面解释；&lt;br&gt;道德经解释仁者见仁智者见智，需要有自己的理解，因为其中的玄妙不是能够用语言可以表达的，正所谓：道可道，非常道。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="国学" scheme="https://wangzongxu.github.io/categories/%E5%9B%BD%E5%AD%A6/"/>
-    
-    
-      <category term="电子书" scheme="https://wangzongxu.github.io/tags/%E7%94%B5%E5%AD%90%E4%B9%A6/"/>
     
   </entry>
   
@@ -3410,6 +3252,189 @@
     
     
       <category term="正则" scheme="https://wangzongxu.github.io/tags/%E6%AD%A3%E5%88%99/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于浏览器缓存</title>
+    <link href="https://wangzongxu.github.io/2017/09/21/cache_control/"/>
+    <id>https://wangzongxu.github.io/2017/09/21/cache_control/</id>
+    <published>2017-09-21T09:09:24.000Z</published>
+    <updated>2017-09-21T09:09:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>浏览器缓存，也就是客户端缓存，既是网页性能优化里面静态资源相关优化的一大利器，也是无数web开发人员在工作过程不可避免的一大问题，所以在产品开发的时候我们总是想办法避免缓存产生，而在产品发布之时又在想策略管理缓存提升网页的访问速度。了解浏览器的缓存命中原理，是开发web应用的基础。<br><a id="more"></a></p>
+<h3 id="浏览器缓存基本介绍"><a href="#浏览器缓存基本介绍" class="headerlink" title="浏览器缓存基本介绍"></a>浏览器缓存基本介绍</h3><blockquote>
+<p>它分为强缓存和协商缓存：</p>
+</blockquote>
+<ol>
+<li><p>浏览器在加载资源时，先根据这个资源的一些http header判断它是否命中强缓存，强缓存如果命中，浏览器直接从自己的缓存中读取资源，不会发请求到服务器。比如某个css文件，如果浏览器在加载它所在的网页时，这个css文件的缓存配置命中了强缓存，浏览器就直接从缓存中加载这个css，连请求都不会发送到网页所在服务器；</p>
+</li>
+<li><p>当强缓存没有命中的时候，浏览器一定会发送一个请求到服务器，通过服务器端依据资源的另外一些http header验证这个资源是否命中协商缓存，如果协商缓存命中，服务器会将这个请求返回，但是不会返回这个资源的数据，而是告诉客户端可以直接从缓存中加载这个资源，于是浏览器就又会从自己的缓存中去加载这个资源；</p>
+</li>
+<li><p>强缓存与协商缓存的共同点是：如果命中，都是从客户端缓存中加载资源，而不是从服务器加载资源数据；区别是：强缓存不发请求到服务器，协商缓存会发请求到服务器。</p>
+</li>
+<li><p>当协商缓存也没有命中的时候，浏览器直接从服务器加载资源数据。</p>
+</li>
+</ol>
+<h3 id="强缓存原理"><a href="#强缓存原理" class="headerlink" title="强缓存原理"></a>强缓存原理</h3><ul>
+<li><p>浏览器对某个资源的请求命中了强缓存时，返回的http状态为200，在chrome的开发者工具的network里面size会显示为from disk cache，比如天猫的首页里就有很多静态资源配置了强缓存，用network可以看到有不少请求就是从缓存中加载的：<br><img src="https://wangzongxu.github.io/img-cache/blog/强缓存原理配图1.png" alt="强缓存原理配图"></p>
+</li>
+<li><p>强缓存是利用Expires或者Cache-Control这两个http response header实现的，它们都用来表示资源在客户端缓存的有效期。</p>
+</li>
+<li><p>Expires是http1.0提出的一个表示资源过期时间的header，它描述的是一个绝对时间，由服务器返回，用GMT格式的字符串表示，如：Expires:Thu, 31 Dec 2037 23:55:55 GMT，它的缓存原理是：]</p>
+<ol>
+<li><p>1）浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在respone的header加上Expires的header，如：<br><img src="https://wangzongxu.github.io/img-cache/blog/expires.png" alt="Expires"></p>
+</li>
+<li><p>浏览器在接收到这个资源后，会把这个资源连同所有response header一起缓存下来（所以缓存命中的请求返回的header并不是来自服务器，而是来自之前缓存的header）；</p>
+</li>
+<li><p>浏览器再请求这个资源时，先从缓存中寻找，找到这个资源后，拿出它的Expires跟当前的请求时间比较，如果请求时间在Expires指定的时间之前，就能命中缓存，否则就不行。</p>
+</li>
+<li><p>如果缓存没有命中，浏览器直接从服务器加载资源时，Expires Header在重新加载的时候会被更新。</p>
+</li>
+</ol>
+</li>
+<li><p>Expires是较老的强缓存管理header，由于它是服务器返回的一个绝对时间，在服务器时间与客户端时间相差较大时，缓存管理容易出现问题，比如随意修改下客户端时间，就能影响缓存命中的结果。所以在http1.1的时候，提出了一个新的header，就是Cache-Control，这是一个相对时间，在配置缓存的时候，以秒为单位，用数值表示，如：Cache-Control:max-age=315360000，它的缓存原理是：</p>
+<ol>
+<li>浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在respone的header加上Cache-Control的header，如<br><img src="https://wangzongxu.github.io/img-cache/blog/cache-control.png" alt="Cache-Control"></li>
+<li><p>浏览器在接收到这个资源后，会把这个资源连同所有response header一起缓存下来；</p>
+</li>
+<li><p>浏览器再请求这个资源时，先从缓存中寻找，找到这个资源后，根据它第一次的请求时间和Cache-Control设定的有效期，计算出一个资源过期时间，再拿这个过期时间跟当前的请求时间比较，如果请求时间在过期时间之前，就能命中缓存，否则就不行。</p>
+</li>
+<li><p>如果缓存没有命中，浏览器直接从服务器加载资源时，Cache-Control Header在重新加载的时候会被更新。</p>
+</li>
+</ol>
+</li>
+<li><p>Cache-Control描述的是一个相对时间，在进行缓存命中的时候，都是利用客户端时间进行判断，所以相比较Expires，Cache-Control的缓存管理更有效，安全一些。</p>
+</li>
+<li><p>这两个header可以只启用一个，也可以同时启用，当response header中，Expires和Cache-Control同时存在时，Cache-Control优先级高于Expires。<br><img src="https://wangzongxu.github.io/img-cache/blog/expires-and-control.png" alt="expires-and-control"></p>
+</li>
+</ul>
+<h3 id="强缓存的管理"><a href="#强缓存的管理" class="headerlink" title="强缓存的管理"></a>强缓存的管理</h3><ul>
+<li><p>前面介绍的是强缓存的原理，在实际应用中我们会碰到需要强缓存的场景和不需要强缓存的场景，通常有2种方式来设置是否启用强缓存：</p>
+<ol>
+<li><p>通过代码的方式，在web服务器返回的响应中添加Expires和Cache-Control Header；</p>
+</li>
+<li><p>通过配置web服务器的方式，让web服务器在响应资源的时候统一添加Expires和Cache-Control Header。</p>
+</li>
+</ol>
+</li>
+<li><p>比如在javaweb里面，我们可以使用类似下面的代码设置强缓存：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java.util.Date date = <span class="keyword">new</span> java.util.Date();    </span><br><span class="line">response.setDateHeader(<span class="string">"Expires"</span>,date.getTime()+<span class="number">20000</span>); <span class="comment">//Expires:过时期限值</span></span><br><span class="line">response.setHeader(<span class="string">"Cache-Control"</span>, <span class="string">"public"</span>); <span class="comment">//Cache-Control来控制页面的缓存与否,public:浏览器和缓存服务器都可以缓存页面信息；</span></span><br><span class="line">response.setHeader(<span class="string">"Pragma"</span>, <span class="string">"Pragma"</span>); <span class="comment">//Pragma:设置页面是否缓存，为Pragma则缓存，no-cache则不缓存</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以通过类似下面的java代码设置不启用强缓存：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader( <span class="string">"Pragma"</span>, <span class="string">"no-cache"</span> );   </span><br><span class="line">response.setDateHeader(<span class="string">"Expires"</span>, <span class="number">0</span>);   </span><br><span class="line">response.addHeader( <span class="string">"Cache-Control"</span>, <span class="string">"no-cache"</span> );<span class="comment">//浏览器和缓存服务器都不应该缓存页面信息</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>tomcat还提供了一个ExpiresFilter专门用来配置强缓存，具体使用的方式可参考tomcat的官方文档：<a href="http://tomcat.apache.org/tomcat-7.0-doc/config/filter.html#Expires_Filter" target="_blank" rel="external">http://tomcat.apache.org/tomcat-7.0-doc/config/filter.html#Expires_Filter</a></p>
+</blockquote>
+<ul>
+<li><p>nginx和apache作为专业的web服务器，都有专门的配置文件，可以配置expires和cache-control，这方面的知识，如果你对运维感兴趣的话，可以在百度上搜索“nginx 设置 expires cache-control”或“apache 设置 expires cache-control”都能找到不少相关的文章。</p>
+</li>
+<li><p>由于在开发的时候不会专门去配置强缓存，而浏览器又默认会缓存图片，css和js等静态资源，所以开发环境下经常会因为强缓存导致资源没有及时更新而看不到最新的效果，解决这个问题的方法有很多，常用的有以下几种：</p>
+<ol>
+<li><p>直接ctrl+f5，这个办法能解决页面直接引用的资源更新的问题；</p>
+</li>
+<li><p>使用浏览器的隐私模式开发；</p>
+</li>
+<li><p>如果用的是chrome，可以f12在network那里把缓存给禁掉（这是个非常有效的方法）：<br><img src="https://wangzongxu.github.io/img-cache/blog/disabled-cache.png" alt="disabled-cache"></p>
+</li>
+<li><p>在开发阶段，给资源加上一个动态的参数，如css/index.css?v=0.0001，由于每次资源的修改都要更新引用的位置，同时修改参数的值，所以操作起来不是很方便，除非你是在动态页面比如jsp里开发就可以用服务器变量来解决（v=${sysRnd}），或者你能用一些前端的构建工具来处理这个参数修改的问题；</p>
+</li>
+<li><p>如果资源引用的页面，被嵌入到了一个iframe里面，可以在iframe的区域右键单击重新加载该页面，以chrome为例：<br><img src="https://wangzongxu.github.io/img-cache/blog/重新加载框架.png" alt="重新加载框架"></p>
+</li>
+<li><p>如果缓存问题出现在ajax请求中，最有效的解决办法就是ajax的请求地址追加随机数；</p>
+</li>
+<li><p>还有一种情况就是动态设置iframe的src时，有可能也会因为缓存问题，导致看不到最新的效果，这时候在要设置的src后面添加随机数也能解决问题；</p>
+</li>
+<li><p>如果你用的是grunt和gulp这种前端工具开发，通过它们的插件比如grunt-contrib-connect来启动一个静态服务器，则完全不用担心开发阶段的资源更新问题，因为在这个静态服务器下的所有资源返回的respone header中，cache-control始终被设置为不缓存：<br><img src="https://wangzongxu.github.io/img-cache/blog/disabled-cache-control.png" alt="disabled-cache-control"></p>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="强缓存的应用"><a href="#强缓存的应用" class="headerlink" title="强缓存的应用"></a>强缓存的应用</h3><ul>
+<li><p>强缓存是前端性能优化最有力的工具，没有之一，对于有大量静态资源的网页，一定要利用强缓存，提高响应速度。通常的做法是，为这些静态资源全部配置一个超时时间超长的Expires或Cache-Control，这样用户在访问网页时，只会在第一次加载时从服务器请求静态资源，其它时候只要缓存没有失效并且用户没有强制刷新的条件下都会从自己的缓存中加载，比如前面提到过的京东首页缓存的资源，它的缓存过期时间都设置到了2026年：<br><img src="https://wangzongxu.github.io/img-cache/blog/cache-2026.png" alt="cache-2026"></p>
+</li>
+<li><p>然而这种缓存配置方式会带来一个新的问题，就是发布时资源更新的问题，比如某一张图片，在用户访问第一个版本的时候已经缓存到了用户的电脑上，当网站发布新版本，替换了这个图片时，已经访问过第一个版本的用户由于缓存的设置，导致在默认的情况下不会请求服务器最新的图片资源，除非他清掉或禁用缓存或者强制刷新，否则就看不到最新的图片效果。</p>
+</li>
+<li><p>这个问题已经有成熟的解决方案，具体内容可阅读知乎这篇文章详细了解：<a href="http://www.zhihu.com/question/20790576" target="_blank" rel="external">http://www.zhihu.com/question/20790576</a></p>
+</li>
+<li><p>文章提到的东西都属于理论上的解决方案，不过现在已经有很多前端工具能够实际地解决这个问题，由于每个工具涉及到的内容细节都有很多，本文没有办法一一深入介绍。有兴趣的可以去了解下grunt gulp webpack fis 还有edp这几个工具，基于这几个工具都能解决这个问题，尤其是fis和edp是百度推出的前端开发平台，有现成的文档可以参考：</p>
+</li>
+</ul>
+<p><a href="http://fis.baidu.com/fis3/api/index.html" target="_blank" rel="external">http://fis.baidu.com/fis3/api/index.html</a>   </p>
+<p><a href="http://ecomfe.github.io/edp/doc/initialization/install/" target="_blank" rel="external">http://ecomfe.github.io/edp/doc/initialization/install/</a></p>
+<ul>
+<li>强缓存还有一点需要注意的是，通常都是针对静态资源使用，动态资源需要慎用，除了服务端页面可以看作动态资源外，那些引用静态资源的html也可以看作是动态资源，如果这种html也被缓存，当这些html更新之后，可能就没有机制能够通知浏览器这些html有更新，尤其是前后端分离的应用里，页面都是纯html页面，每个访问地址可能都是直接访问html页面，这些页面通常不加强缓存，以保证浏览器访问这些页面时始终请求服务器最新的资源。</li>
+</ul>
+<h3 id="协商缓存的原理"><a href="#协商缓存的原理" class="headerlink" title="协商缓存的原理"></a>协商缓存的原理</h3><ul>
+<li><p>当浏览器对某个资源的请求没有命中强缓存，就会发一个请求到服务器，验证协商缓存是否命中，如果协商缓存命中，请求响应返回的http状态为304并且会显示一个Not Modified的字符串，比如你打开京东的首页，按f12打开开发者工具，再按f5刷新页面，查看network，可以看到有不少请求就是命中了协商缓存的<br><img src="https://wangzongxu.github.io/img-cache/blog/304.png" alt="304"></p>
+</li>
+<li><p>查看单个请求的Response Header，也能看到304的状态码和Not Modified的字符串，只要看到这个就可说明这个资源是命中了协商缓存，然后从客户端缓存中加载的，而不是服务器最新的资源：<br><img src="https://wangzongxu.github.io/img-cache/blog/304-detail.png" alt="304-detail"></p>
+</li>
+<li><p>协商缓存是利用的是【Last-Modified，If-Modified-Since】和【ETag、If-None-Match】这两对Header来管理的。</p>
+</li>
+<li><p>【Last-Modified，If-Modified-Since】的控制缓存的原理是：</p>
+<ol>
+<li>浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在respone的header加上Last-Modified的header，这个header表示这个资源在服务器上的最后修改时间：<br><img src="https://wangzongxu.github.io/img-cache/blog/Last-Modified.png" alt="Last-Modified"></li>
+<li>浏览器再次跟服务器请求这个资源时，在request的header上加上If-Modified-Since的header，这个header的值就是上一次请求时返回的Last-Modified的值：<br><img src="https://wangzongxu.github.io/img-cache/blog/If-Modified-Since.png" alt="If-Modified-Since"></li>
+<li>服务器再次收到资源请求时，根据浏览器传过来If-Modified-Since和资源在服务器上的最后修改时间判断资源是否有变化，如果没有变化则返回304 Not Modified，但是不会返回资源内容；如果有变化，就正常返回资源内容。当服务器返回304 Not Modified的响应时，response header中不会再添加Last-Modified的header，因为既然资源没有变化，那么Last-Modified也就不会改变，这是服务器返回304时的response header：<br><img src="https://wangzongxu.github.io/img-cache/blog/304res.png" alt="304res"></li>
+<li><p>浏览器收到304的响应后，就会从缓存中加载资源。</p>
+</li>
+<li><p>如果协商缓存没有命中，浏览器直接从服务器加载资源时，Last-Modified Header在重新加载的时候会被更新，下次请求时，If-Modified-Since会启用上次返回的Last-Modified值。</p>
+</li>
+</ol>
+</li>
+<li><p>【Last-Modified，If-Modified-Since】都是根据服务器时间返回的header，一般来说，在没有调整服务器时间和篡改客户端缓存的情况下，这两个header配合起来管理协商缓存是非常可靠的，但是有时候也会服务器上资源其实有变化，但是最后修改时间却没有变化的情况，而这种问题又很不容易被定位出来，而当这种情况出现的时候，就会影响协商缓存的可靠性。所以就有了另外一对header来管理协商缓存，这对header就是【ETag、If-None-Match】。它们的缓存管理的方式是：</p>
+<ol>
+<li>浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在respone的header加上ETag的header，这个header是服务器根据当前请求的资源生成的一个唯一标识，这个唯一标识是一个字符串，只要资源有变化这个串就不同，跟最后修改时间没有关系，所以能很好的补充Last-Modified的问题：<br><img src="https://wangzongxu.github.io/img-cache/blog/ETag.png" alt="ETag"></li>
+<li>浏览器再次跟服务器请求这个资源时，在request的header上加上If-None-Match的header，这个header的值就是上一次请求时返回的ETag的值：<br><img src="https://wangzongxu.github.io/img-cache/blog/if-none-match.png" alt="if-none-match"></li>
+<li>服务器再次收到资源请求时，根据浏览器传过来If-None-Match和然后再根据资源生成一个新的ETag，如果这两个值相同就说明资源没有变化，否则就是有变化；如果没有变化则返回304 Not Modified，但是不会返回资源内容；如果有变化，就正常返回资源内容。与Last-Modified不一样的是，当服务器返回304 Not Modified的响应时，由于ETag重新生成过，response header中还会把这个ETag返回，即使这个ETag跟之前的没有变化：<br><img src="https://wangzongxu.github.io/img-cache/blog/ETag.png" alt="ETag"></li>
+<li>浏览器收到304的响应后，就会从缓存中加载资源。</li>
+</ol>
+</li>
+</ul>
+<h3 id="协商缓存的管理"><a href="#协商缓存的管理" class="headerlink" title="协商缓存的管理"></a>协商缓存的管理</h3><ul>
+<li><p>协商缓存跟强缓存不一样，强缓存不发请求到服务器，所以有时候资源更新了浏览器还不知道，但是协商缓存会发请求到服务器，所以资源是否更新，服务器肯定知道。大部分web服务器都默认开启协商缓存，而且是同时启用【Last-Modified，If-Modified-Since】和【ETag、If-None-Match】，比如apache:<br><img src="https://wangzongxu.github.io/img-cache/blog/etagandlast.png" alt="etagandlast"></p>
+</li>
+<li><p>如果没有协商缓存，每个到服务器的请求，就都得返回资源内容，这样服务器的性能会极差。</p>
+</li>
+<li><p>【Last-Modified，If-Modified-Since】和【ETag、If-None-Match】一般都是同时启用，这是为了处理Last-Modified不可靠的情况。有一种场景需要注意：</p>
+</li>
+<li><p>分布式系统里多台机器间文件的Last-Modified必须保持一致，以免负载均衡到不同机器导致比对失败；</p>
+</li>
+<li><p>分布式系统尽量关闭掉ETag(每台机器生成的ETag都会不一样）；</p>
+</li>
+<li><p>京东页面的资源请求，返回的repsones header就只有Last-Modified，没有ETag：<br><img src="https://wangzongxu.github.io/img-cache/blog/only-lastmodify.png" alt="only-lastmodify"></p>
+</li>
+<li><p>协商缓存需要配合强缓存使用，你看前面这个截图中，除了Last-Modified这个header，还有强缓存的相关header，因为如果不启用强缓存的话，协商缓存根本没有意义。</p>
+</li>
+</ul>
+<h3 id="浏览器行为对缓存的影响"><a href="#浏览器行为对缓存的影响" class="headerlink" title="浏览器行为对缓存的影响"></a>浏览器行为对缓存的影响</h3><ul>
+<li><p>如果资源已经被浏览器缓存下来，在缓存失效之前，再次请求时，默认会先检查是否命中强缓存，如果强缓存命中则直接读取缓存，如果强缓存没有命中则发请求到服务器检查是否命中协商缓存，如果协商缓存命中，则告诉浏览器还是可以从缓存读取，否则才从服务器返回最新的资源。这是默认的处理方式，这个方式可能被浏览器的行为改变：</p>
+<ol>
+<li><p>当ctrl+f5强制刷新网页时，直接从服务器加载，跳过强缓存和协商缓存；</p>
+</li>
+<li><p>当f5刷新网页时，跳过强缓存，但是会检查协商缓存；</p>
+</li>
+</ol>
+</li>
+<li><p>参考出处：<a href="http://www.cnblogs.com/lyzg/p/5125934.html" target="_blank" rel="external">http://www.cnblogs.com/lyzg/p/5125934.html</a></p>
+</li>
+</ul>
+<h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><p><img src="https://wangzongxu.github.io/img-cache/blog/browser-cache.jpeg" alt="流程图"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;浏览器缓存，也就是客户端缓存，既是网页性能优化里面静态资源相关优化的一大利器，也是无数web开发人员在工作过程不可避免的一大问题，所以在产品开发的时候我们总是想办法避免缓存产生，而在产品发布之时又在想策略管理缓存提升网页的访问速度。了解浏览器的缓存命中原理，是开发web应用的基础。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="剪切板" scheme="https://wangzongxu.github.io/categories/%E5%89%AA%E5%88%87%E6%9D%BF/"/>
+    
+    
+      <category term="浏览器缓存" scheme="https://wangzongxu.github.io/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/"/>
     
   </entry>
   
