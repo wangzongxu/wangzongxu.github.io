@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://wangzongxu.github.io/2018/02/13/promise-demo1/index.html">
 <meta property="og:site_name" content="zongxu's Blog">
 <meta property="og:description" content="看下边这段代码并说出结果的输出顺序：">
-<meta property="og:updated_time" content="2018-02-13T08:19:14.714Z">
+<meta property="og:updated_time" content="2018-03-08T13:53:30.255Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个关于Promise执行顺序的小例子">
 <meta name="twitter:description" content="看下边这段代码并说出结果的输出顺序：">
@@ -97,10 +97,7 @@
 <a id="more"></a>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">  resolve(<span class="number">1</span>)</span><br><span class="line">  <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">2</span>))</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">4</span>)</span><br><span class="line">&#125;).then(<span class="function"><span class="params">t</span> =&gt;</span> <span class="built_in">console</span>.log(t))</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
 <ul>
-<li>执行结果在下边，建议先猜测一下<blockquote>
-<p>该代码来自阮一峰的微博</p>
-</blockquote>
-</li>
+<li>执行结果在下边，建议先猜测一下</li>
 </ul>
 <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
 <ul>
@@ -126,7 +123,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-title="一个关于Promise执行顺序的小例子" data-url="https://wangzongxu.github.io/2018/02/13/promise-demo1/" data-id="cje9cv9gv001g3kfy8ekfcdeb" class="article-share-link -mob-share-open">分享</a>
+      <a data-title="一个关于Promise执行顺序的小例子" data-url="https://wangzongxu.github.io/2018/02/13/promise-demo1/" data-id="cjeikr3qy001f2efy4plk34p0" class="article-share-link -mob-share-open">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JS/">JS</a></li></ul>
@@ -147,9 +144,9 @@
     </a>
   
   
-    <a href="/2018/02/13/ZhongYong/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/09/21/chromeUtils/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">中庸</div>
+      <div class="article-nav-title">常用Chrome扩展工具</div>
     </a>
   
 </nav>
@@ -169,6 +166,14 @@
       <ul>
         
           <li>
+            <a href="/2018/03/02/yahoo34/">雅虎优化技巧（摘）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/02/ZhongYong/">中庸</a>
+          </li>
+        
+          <li>
             <a href="/2018/03/02/nginx-alias/">Nginx中alias和root参数区别</a>
           </li>
         
@@ -178,14 +183,6 @@
         
           <li>
             <a href="/2018/02/13/promise-demo1/">一个关于Promise执行顺序的小例子</a>
-          </li>
-        
-          <li>
-            <a href="/2018/02/13/ZhongYong/">中庸</a>
-          </li>
-        
-          <li>
-            <a href="/2017/09/21/httpStatus/">http 状态码</a>
           </li>
         
       </ul>
